@@ -483,57 +483,98 @@ pre .yaml-key { color: #93c5fd; }
 <!-- ════════════ ④ 公开数据集 ════════════ -->
 <div class="section" id="data">
   <div class="section-title">
-    <h2>④ 100% 公开数据集采用方案（无自采，无 IRB）</h2>
-    <div class="sub">CVPR reviewer 信任度满分 · License 全部学术可用</div>
+    <h2>④ 数据挑选最终方案（已锁定 3 张主牌）</h2>
+    <div class="sub">100% 公开数据集 · 无 IRB / 无 PII 麻烦 · 总下载约 300GB</div>
   </div>
   <div class="section-body">
 
     <div class="alert alert-green">
-      <strong>✅ 战略优势：</strong>HallusionBench / POPE / MMVP / EmbSpatial-Bench 全部是公开数据二次标注的成功 CVPR 论文。Reviewer 不会问"为什么不采集真实数据"，只会问"标注质量如何"——而我们用 3 名 annotator + Fleiss κ ≥ 0.65 + 公开发布，完全经得起审查。
+      <strong>挑选哲学：</strong>不要把所有可能的数据源都堆进去——那样下载、清洗、跨数据集对齐都是负担。原则是<strong>每个维度只选一个最适合的</strong>，最后收敛到 <strong>3 张主牌：Hypersim + Ego4D + AI2-THOR</strong>，加 RefCOCO 和 LLaVA 用于训练。
     </div>
 
-    <h3 class="h3">📦 7 维度 × 公开数据集映射</h3>
+    <h3 class="h3">⭐ 选定的数据源（5 个，已经够）</h3>
     <table>
-      <thead><tr><th width="14%">维度</th><th width="8%">数量</th><th>来源数据集</th><th>License</th></tr></thead>
+      <thead><tr><th width="18%">数据集</th><th>角色</th><th>License</th><th>获取</th></tr></thead>
       <tbody>
-        <tr>
-          <td><strong>Spatial</strong></td><td>500</td>
-          <td><strong>ScanNet++</strong>（460 室内 scan）+ <strong>ARKitScenes</strong>（5K+ scan，Apple）</td>
-          <td>学术研究 ✅</td>
+        <tr style="background:#fef3c7">
+          <td><strong>Hypersim</strong>（Apple）⭐⭐⭐</td>
+          <td>主力，覆盖 5 个维度（Spatial / Categorical / Relational / Hallucination / 训练合成底图）。<strong>461 室内场景 + 77K 帧 + 真实深度图 + instance label</strong>，是关系指代必须用它的原因</td>
+          <td>CC BY-SA 3.0</td>
+          <td>免注册直接下</td>
+        </tr>
+        <tr style="background:#fef3c7">
+          <td><strong>Ego4D 家居 subset</strong> ⭐⭐⭐</td>
+          <td>视频独苗，<strong>唯一能做 temporal / multi-turn 的源</strong>。3,670 小时第一人称视频，家居子集约 500h，自带 narration 可改写多轮对话</td>
+          <td>学术免费</td>
+          <td>签 license（1-2 天审批）</td>
+        </tr>
+        <tr style="background:#fef3c7">
+          <td><strong>AI2-THOR</strong> ⭐⭐⭐</td>
+          <td>Hard Cases 程序化生成器。可控生成遮挡 / 低光 / 同类堆叠场景</td>
+          <td>Apache 2.0</td>
+          <td><code>pip install ai2thor</code></td>
         </tr>
         <tr>
-          <td><strong>Categorical</strong></td><td>400</td>
-          <td><strong>3D-FRONT</strong>（6.8K 家具齐全房间）+ <strong>SUN RGB-D</strong>（10K）</td>
-          <td>学术非商用 ✅</td>
+          <td><strong>RefCOCO/+/g</strong></td>
+          <td>训练 Stage 1 warmup 主力（12K 样本）。grounding 通用能力</td>
+          <td>学术免费</td>
+          <td>HuggingFace 一键</td>
         </tr>
         <tr>
-          <td><strong>Relational</strong></td><td>700</td>
-          <td><strong>Hypersim</strong>（深度真值，461 场景，Apple）+ 3D-FRONT</td>
-          <td>CC BY-SA 3.0 ✅</td>
+          <td><strong>LLaVA-Instruct-150K</strong></td>
+          <td>训练防 catastrophic forgetting（6K 子采样）。维持通用 VLM 能力</td>
+          <td>Apache 2.0</td>
+          <td>HuggingFace 一键</td>
         </tr>
-        <tr>
-          <td><strong>Temporal</strong></td><td>400</td>
-          <td><strong>Ego4D 家居 subset</strong>（3,670h 第一人称视频）+ <strong>EPIC-KITCHENS</strong>（100h 厨房）+ <strong>Charades-Ego</strong>（7K+ 家居活动）</td>
-          <td>学术研究 ✅</td>
-        </tr>
-        <tr>
-          <td><strong>Multi-turn</strong></td><td>500 dialogs</td>
-          <td>Ego4D narration → GPT-4o 改写多轮 / SIMMC 2.1 家居子集</td>
-          <td>学术研究 ✅</td>
-        </tr>
-        <tr>
-          <td><strong>Hallucination</strong></td><td>500</td>
-          <td>任何上述源 + POPE 风格 yes/no 探针</td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td><strong>Hard cases</strong></td><td>500</td>
-          <td><strong>AI2-THOR</strong>（Apache 2.0）+ <strong>Habitat-Sim (HM3D)</strong> 程序生成遮挡/低光</td>
-          <td>Apache 2.0 ✅</td>
-        </tr>
-        <tr style="background:#dcfce7"><td><strong>合计</strong></td><td><strong>~3,500</strong></td><td>10 个公开源 + Cohen's κ ≥ 0.65 标注</td><td>全部 OK</td></tr>
       </tbody>
     </table>
+
+    <h3 class="h3">🚫 砍掉的（避免复杂化）</h3>
+    <table class="compact">
+      <thead><tr><th>数据集</th><th>砍掉理由</th></tr></thead>
+      <tbody>
+        <tr><td>ScanNet++</td><td>要审批 1-2 周，Hypersim 已覆盖室内场景，重复</td></tr>
+        <tr><td>3D-FRONT</td><td>需注册 + 是合成场景，Hypersim 也是合成且更真实</td></tr>
+        <tr><td>SUN RGB-D</td><td>2015 年老数据，质量不及 Hypersim</td></tr>
+        <tr><td>Charades-Ego</td><td>Ego4D 已覆盖家居</td></tr>
+        <tr><td>EPIC-KITCHENS</td><td>厨房太单一，Ego4D 多场景更好</td></tr>
+        <tr><td>ARKitScenes</td><td>备胎，主力够就不用了</td></tr>
+        <tr><td>SIMMC 2.1</td><td>多轮可以用 Ego4D + GPT-4o 改写代替</td></tr>
+        <tr><td>Habitat-Sim / HM3D</td><td>AI2-THOR 已经够用 hard cases</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="h3">📦 7 维度 × 数据源最终映射（精简后）</h3>
+    <table>
+      <thead><tr><th width="14%">维度</th><th width="8%">数量</th><th>主源</th><th>采样策略</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Spatial</strong></td><td>500</td><td>Hypersim</td><td>选含同类多物体的房间帧（≥2 个椅子/杯子等），自动生成方位 query</td></tr>
+        <tr><td><strong>Categorical</strong></td><td>400</td><td>Hypersim</td><td>物体丰富的场景（≥10 个物体），写类别 query</td></tr>
+        <tr><td><strong>Relational</strong></td><td>700</td><td>Hypersim</td><td><strong>必须用 Hypersim</strong>——它有真实深度图，可以可靠生成"前后/旁边"</td></tr>
+        <tr><td><strong>Temporal</strong></td><td>400</td><td>Ego4D</td><td>抽连续 2-5 帧，物体出现 → 消失 → 询问</td></tr>
+        <tr><td><strong>Multi-turn</strong></td><td>500 dialogs</td><td>Ego4D narration</td><td>用现成 narration + GPT-4o 改写成多轮对话</td></tr>
+        <tr><td><strong>Hallucination</strong></td><td>500</td><td>Hypersim + Ego4D</td><td>POPE 风格自动生成（问场景里没有的物体）</td></tr>
+        <tr><td><strong>Hard Cases</strong></td><td>500</td><td>AI2-THOR</td><td>程序化生成遮挡 / 低光 / 同类堆叠</td></tr>
+        <tr style="background:#dcfce7"><td><strong>合计</strong></td><td><strong>3,500</strong></td><td><strong>3 个主源</strong></td><td>每个维度只用一个数据集，避免跨源对齐麻烦</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="h3">💾 存储估算 + 下载优先级</h3>
+    <table class="compact">
+      <thead><tr><th>数据集</th><th>Pilot 体积</th><th>下载方式</th><th>优先级</th></tr></thead>
+      <tbody>
+        <tr><td>Hypersim（先 50 scenes）</td><td>~200 GB</td><td>免注册，<code>git clone apple/ml-hypersim</code> + 选择性下载</td><td><span class="badge b-must">立刻</span></td></tr>
+        <tr><td>AI2-THOR Unity build</td><td>~5 GB</td><td><code>pip install ai2thor</code></td><td><span class="badge b-must">立刻</span></td></tr>
+        <tr><td>RefCOCO/+/g</td><td>~20 GB</td><td>HuggingFace <code>load_dataset('lmms-lab/RefCOCOg')</code></td><td><span class="badge b-must">立刻</span></td></tr>
+        <tr><td>LLaVA-Instruct-150K</td><td>~18 GB</td><td>HuggingFace <code>load_dataset('liuhaotian/LLaVA-Instruct-150K')</code></td><td><span class="badge b-must">立刻</span></td></tr>
+        <tr><td>Ego4D 家居 NLQ subset</td><td>~50 GB</td><td>签 license → <code>ego4d --output_directory ... --datasets video_540ss</code></td><td><span class="badge b-should">这周</span></td></tr>
+        <tr style="background:#dcfce7"><td><strong>合计</strong></td><td><strong>~300 GB</strong></td><td>国内云存储约 ¥30-50/月</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <div class="alert alert-purple" style="margin-top:14px">
+      <strong>一句话挑选逻辑：</strong>Hypersim 一个数据集解决 5 个维度（同时有 RGB + 深度 + instance + 室内场景多样），加 Ego4D 解决视频维度，加 AI2-THOR 解决 hard cases——<strong>3 个数据集吃掉所有需求</strong>，不下其他的，省时间也省存储。
+    </div>
 
     <h3 class="h3">🎯 微调训练数据（38K 样本，全公开）</h3>
     <table>

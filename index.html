@@ -212,6 +212,7 @@ let activeIdx = 0;
 function showApp() {
   gate.classList.add('hidden');
   app.classList.add('visible');
+  if (!tabs.length) loadConfig();
 }
 
 function showGate() {
@@ -239,7 +240,10 @@ function renderTabs() {
   tabs.forEach((t, i) => {
     const btn = document.createElement('button');
     btn.className = 'tab' + (i === activeIdx ? ' active' : '');
-    btn.innerHTML = `<span class="tab-dot"></span>${t.name}`;
+    const dot = document.createElement('span');
+    dot.className = 'tab-dot';
+    btn.appendChild(dot);
+    btn.appendChild(document.createTextNode(t.name));
     btn.onclick = () => selectTab(i);
     tabsEl.appendChild(btn);
   });
@@ -265,15 +269,9 @@ lockBtn.onclick = showGate;
 
 if (sessionStorage.getItem(SESSION_KEY)) {
   showApp();
-  loadConfig();
 } else {
   pwInput.focus();
 }
-
-document.getElementById('gate').addEventListener('transitionend', () => {
-  if (!gate.classList.contains('hidden')) return;
-  loadConfig();
-});
 </script>
 </body>
 </html>

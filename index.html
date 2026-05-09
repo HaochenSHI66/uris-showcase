@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>URIS — Research Demo</title>
+<style>
+/* ── Design tokens ─────────────────────────────── */
+:root {
+  --accent:      #6c63ff;
+  --accent-soft: #f0eeff;
+  --bg:          #ffffff;
+  --bg-content:  #f9f8ff;
+  --text:        #1a1a1a;
+  --muted:       #999999;
+  --border:      #ebebeb;
+  --topbar-h:    48px;
+  --font:        -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --radius:      10px;
+}
+
+/* ── Reset ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; font-family: var(--font); background: var(--bg); color: var(--text); }
+
+/* ── Gate ──────────────────────────────────────── */
+#gate {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+  transition: opacity 0.35s ease;
+  z-index: 10;
+}
+#gate.hidden { opacity: 0; pointer-events: none; }
+
+.gate-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(108,99,255,0.07) 0%, transparent 70%);
+}
+.gate-box { position: relative; z-index: 1; text-align: center; width: 320px; }
+
+.gate-logo {
+  font-size: 26px; font-weight: 800; letter-spacing: 0.14em;
+  color: var(--text); margin-bottom: 6px;
+}
+.gate-sub {
+  font-size: 12px; color: var(--muted); letter-spacing: 0.06em;
+  margin-bottom: 36px;
+}
+
+.gate-field {
+  display: flex; align-items: center; gap: 10px;
+  background: #f7f7fb; border: 1.5px solid #e0dff8;
+  border-radius: var(--radius); padding: 11px 14px;
+  margin-bottom: 10px;
+  transition: border-color 0.2s;
+}
+.gate-field:focus-within { border-color: var(--accent); }
+.gate-field.error { border-color: #ff4d4f; animation: shake 0.35s ease; }
+
+.gate-field svg { flex-shrink: 0; color: #b0aee8; }
+.gate-input {
+  flex: 1; border: none; outline: none; background: transparent;
+  font-size: 14px; color: var(--text); letter-spacing: 0.12em;
+  font-family: var(--font);
+}
+.gate-input::placeholder { letter-spacing: 0.04em; color: #ccc; }
+
+.gate-btn {
+  width: 100%; padding: 12px;
+  background: var(--accent); color: #fff;
+  border: none; border-radius: var(--radius);
+  font-size: 14px; font-weight: 600; letter-spacing: 0.04em;
+  cursor: pointer; font-family: var(--font);
+  transition: background 0.15s, transform 0.1s;
+}
+.gate-btn:hover { background: #5a52e0; }
+.gate-btn:active { transform: scale(0.98); }
+
+.gate-error {
+  font-size: 11px; color: #ff4d4f; margin-top: 8px;
+  min-height: 16px; transition: opacity 0.2s;
+}
+.gate-hint {
+  font-size: 10px; color: #ccc; margin-top: 14px; letter-spacing: 0.03em;
+}
+
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+/* ── App (main layout) ─────────────────────────── */
+#app {
+  display: flex; flex-direction: column; height: 100vh;
+  opacity: 0; transition: opacity 0.35s ease;
+}
+#app.visible { opacity: 1; }
+
+/* Topbar */
+#topbar {
+  height: var(--topbar-h); flex-shrink: 0;
+  display: flex; align-items: center;
+  padding: 0 20px; gap: 0;
+  background: var(--bg); border-bottom: 1px solid var(--border);
+}
+.brand {
+  font-size: 13px; font-weight: 800; letter-spacing: 0.14em;
+  color: var(--text); margin-right: 18px; flex-shrink: 0;
+}
+.topbar-divider { width: 1px; height: 18px; background: var(--border); margin-right: 16px; flex-shrink: 0; }
+
+#tabs { display: flex; align-items: stretch; gap: 0; overflow-x: auto; flex: 1; }
+#tabs::-webkit-scrollbar { display: none; }
+
+.tab {
+  display: flex; align-items: center; gap: 6px;
+  padding: 0 16px; height: var(--topbar-h);
+  font-size: 13px; color: var(--muted);
+  cursor: pointer; white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s;
+  background: none; border-top: none; border-left: none; border-right: none;
+  font-family: var(--font);
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--accent); font-weight: 600; border-bottom-color: var(--accent); }
+
+.tab-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0;
+  opacity: 0; transition: opacity 0.15s;
+}
+.tab.active .tab-dot { opacity: 1; }
+
+.topbar-spacer { flex: 1; }
+.lock-btn {
+  font-size: 11px; color: var(--muted);
+  padding: 5px 12px; border: 1px solid var(--border);
+  border-radius: 6px; cursor: pointer; background: none;
+  font-family: var(--font); white-space: nowrap; flex-shrink: 0;
+  transition: color 0.15s, border-color 0.15s;
+}
+.lock-btn:hover { color: var(--text); border-color: #ccc; }
+
+/* Content iframe */
+#content {
+  flex: 1; overflow: hidden;
+}
+#frame {
+  width: 100%; height: 100%; border: none; display: block;
+  background: var(--bg-content);
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <div class="gate-glow"></div>
+  <div class="gate-box">
+    <div class="gate-logo">URIS</div>
+    <div class="gate-sub">Research Demo &middot; Shihao Chen</div>
+    <div class="gate-field" id="gateField">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </svg>
+      <input class="gate-input" id="pwInput" type="password" placeholder="Enter password" autocomplete="current-password">
+    </div>
+    <button class="gate-btn" id="enterBtn">Enter</button>
+    <div class="gate-error" id="gateError"></div>
+    <div class="gate-hint">Access restricted &middot; Password required</div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div id="topbar">
+    <div class="brand">URIS</div>
+    <div class="topbar-divider"></div>
+    <div id="tabs"></div>
+    <div class="topbar-spacer"></div>
+    <button class="lock-btn" id="lockBtn">Lock →</button>
+  </div>
+  <div id="content">
+    <iframe id="frame" title="Demo content"></iframe>
+  </div>
+</div>
+
+<script>
+const PASSWORD = 'uris2026';
+const SESSION_KEY = 'uris_auth';
+
+const gate     = document.getElementById('gate');
+const app      = document.getElementById('app');
+const pwInput  = document.getElementById('pwInput');
+const enterBtn = document.getElementById('enterBtn');
+const gateField= document.getElementById('gateField');
+const gateError= document.getElementById('gateError');
+const tabsEl   = document.getElementById('tabs');
+const frame    = document.getElementById('frame');
+const lockBtn  = document.getElementById('lockBtn');
+
+let tabs = [];
+let activeIdx = 0;
+
+function showApp() {
+  gate.classList.add('hidden');
+  app.classList.add('visible');
+}
+
+function showGate() {
+  sessionStorage.removeItem(SESSION_KEY);
+  app.classList.remove('visible');
+  gate.classList.remove('hidden');
+  pwInput.value = '';
+  gateError.textContent = '';
+}
+
+function tryUnlock() {
+  if (pwInput.value === PASSWORD) {
+    sessionStorage.setItem(SESSION_KEY, '1');
+    showApp();
+  } else {
+    gateError.textContent = 'Incorrect password';
+    gateField.classList.add('error');
+    setTimeout(() => gateField.classList.remove('error'), 400);
+    pwInput.select();
+  }
+}
+
+function renderTabs() {
+  tabsEl.innerHTML = '';
+  tabs.forEach((t, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'tab' + (i === activeIdx ? ' active' : '');
+    btn.innerHTML = `<span class="tab-dot"></span>${t.name}`;
+    btn.onclick = () => selectTab(i);
+    tabsEl.appendChild(btn);
+  });
+}
+
+function selectTab(i) {
+  activeIdx = i;
+  renderTabs();
+  frame.src = tabs[i].file;
+}
+
+async function loadConfig() {
+  const res = await fetch('config.json?t=' + Date.now());
+  tabs = await res.json();
+  renderTabs();
+  if (tabs.length > 0) frame.src = tabs[0].file;
+}
+
+// Init
+enterBtn.onclick = tryUnlock;
+pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+lockBtn.onclick = showGate;
+
+if (sessionStorage.getItem(SESSION_KEY)) {
+  showApp();
+  loadConfig();
+} else {
+  pwInput.focus();
+}
+
+document.getElementById('gate').addEventListener('transitionend', () => {
+  if (!gate.classList.contains('hidden')) return;
+  loadConfig();
+});
+</script>
+</body>
+</html>

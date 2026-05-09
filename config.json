@@ -1,4 +1,3 @@
 [
-  { "name": "Demo Overview",  "file": "demos/overview.html" },
-  { "name": "Reasoning UI",   "file": "demos/reasoning.html" }
+  { "name": "URIS未来规划设计", "file": "demos/uris_progress_review.html" }
 ]

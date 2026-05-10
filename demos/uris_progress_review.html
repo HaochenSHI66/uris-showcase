@@ -184,7 +184,7 @@ pre .yaml-key { color: #93c5fd; }
   <p class="subtitle">Benchmark-first + Findings + Compact Policy · 5,000 条 8 维评估 · 26 周倒计时</p>
   <p class="meta">v4 → v5：处理 Reviewer #2 六大批评 · 14 个专业 Agent 累计调研 · 4 篇 prior work 实查比对 · 2026-05-10</p>
   <div class="header-tags">
-    <span class="htag">CVPR 2027 锁定</span>
+    <span class="htag">Target: CVPR 2027 / Workshop</span>
     <span class="htag">DomesticGround 5K / 8 维</span>
     <span class="htag">Findings-driven novelty</span>
     <span class="htag">EAP Evidence Acquisition Policy</span>
@@ -357,7 +357,7 @@ pre .yaml-key { color: #93c5fd; }
         <tr><td><strong>Reviewer #2</strong><br>顶会严审</td><td>原 30 条评估差一个数量级（同行均值 800-10000）。Kappa ≥ 0.80 过度乐观（OntoNotes 也只 0.78）。Contribution 必须有 ≥1 个 trained module</td></tr>
         <tr><td><strong>CVPR 策略</strong></td><td>Benchmark 路径 6.5/10 接受概率，Method 路径 3/10。推荐 hybrid。先例：HallusionBench、GLaMM 都是 CVPR'24 收的</td></tr>
         <tr><td><strong>视觉算法贡献</strong></td><td>5 个候选方向，最佳 = <strong>Active Perception Policy</strong>（3M Transformer + PPO，5 actions：ANSWER/ZOOM/CLARIFY/WAIT/REJECT）</td></tr>
-        <tr><td><strong>Benchmark 设计</strong></td><td>DomesticGround：现实 3,500 条 / 7 维度 / 12-15 baseline / Fleiss κ ≥ 0.65 / 3 个 insight</td></tr>
+        <tr><td><strong>Benchmark 设计</strong></td><td>DomesticGround：5,000 条 / 8 维度 / 12-15 baseline / Fleiss κ ≥ 0.65 / 3 个 hypothesis-driven insight</td></tr>
         <tr><td><strong>SOTA VLM 微调</strong></td><td>推荐 SFT + DPO / GRPO 三阶段。VLM-R1 / Visual-RFT 范式。预期 RefCOCOg 90-92%</td></tr>
         <tr><td><strong>Visual Grounding Tricks</strong></td><td>5 个高 ROI trick：原生 box token + AnyRes + 课程学习 + 加权 loss + GRPO refinement</td></tr>
       </tbody>
@@ -390,7 +390,7 @@ pre .yaml-key { color: #93c5fd; }
     <div class="paper-card">
       <div class="pt">[3] Eyes Wide Shut? Exploring the Visual Shortcomings of MLLMs (MMVP) <span class="badge b-paper">CVPR 2024</span></div>
       <div class="pa">Tong et al. · 仅 300 对样本但发现 9 类系统性盲区</div>
-      <div class="pw"><strong>URIS 引用：</strong>证明"小 benchmark + 大 insight"模式在 CVPR 收得到。我们 3,500 条规模合理</div>
+      <div class="pw"><strong>URIS 引用：</strong>证明"小 benchmark + 大 insight"模式在 CVPR 收得到。我们 5,000 条规模合理</div>
     </div>
 
     <div class="divider"></div>
@@ -541,7 +541,11 @@ pre .yaml-key { color: #93c5fd; }
         </tr>
         <tr>
           <td><span class="badge b-cvpr">C2</span></td>
-          <td><strong>Systematic findings</strong>（v5 重写）：通过 15 个 VLM 在 5,000 条上的零样本评估，给出 3 条数字断言：(i) 单轮 grounding 强不代表多轮强（carry-over 平均掉 41%）；(ii) hallucination 主要来自 over-commitment under ambiguity（而非感知错误）；(iii) clarification ability 与 grounding accuracy 相关性极弱（Spearman ρ ≈ 0.07）</td>
+          <td><strong>Systematic findings</strong>（v5.1 改为 hypotheses）：通过 15 个 VLM 在 5,000 条上的零样本评估，<strong>测试 3 个核心假设</strong>：<br>
+          <strong>H1</strong>：single-turn grounding performance does not predict multi-turn carry-over robustness<br>
+          <strong>H2</strong>：a substantial fraction of hallucinations come from over-commitment under ambiguity<br>
+          <strong>H3</strong>：clarification ability is weakly correlated with standard grounding accuracy<br>
+          <small style="color:#64748b">实验跑完后填具体数字，论文写作时用断言而非假设</small></td>
           <td>15 baseline × 8 维 × 失败模式诊断</td>
           <td>§4 Findings + Table 2, 3 + Figure 3</td>
         </tr>
@@ -584,7 +588,7 @@ pre .yaml-key { color: #93c5fd; }
         </tr>
         <tr style="background:#fef3c7">
           <td><strong>HOI4D</strong> ⭐⭐⭐<br><small>（v5 替换 Ego4D）</small></td>
-          <td><strong>spatial+temporal IoU 唯一可用</strong>。610 室内场景 × 逐帧 bbox 现成 + 物体类别标注。需自己写 ~500 条 multi-turn query（约 12 工时）覆盖 multi-turn carry-over</td>
+          <td><strong>提供视觉监督，language query 我们自己构造</strong>（v5.1 措辞修正）。HOI4D 自带：panoptic seg / motion seg / 3D hand pose / category-level pose / action label / 重建 mesh — 但<strong>没有 language 标注</strong>。URIS 利用其 frame-wise spatial annotations 推导 bbox supervision，referring expression + ambiguity + abstention label 自补。Pilot 子集化到 800 序列 × 2 query ≈ 1.6K</td>
           <td>学术免费</td>
           <td>免注册，github 直接下</td>
         </tr>
@@ -630,7 +634,7 @@ pre .yaml-key { color: #93c5fd; }
       </tbody>
     </table>
 
-    <h3 class="h3">📦 7 维度 × 数据源最终映射（精简后）</h3>
+    <h3 class="h3">📦 8 维度 × 数据源最终映射（v5.1 含 Abstention）</h3>
     <table>
       <thead><tr><th width="14%">维度</th><th width="8%">数量</th><th>主源</th><th>采样策略</th></tr></thead>
       <tbody>
@@ -641,7 +645,8 @@ pre .yaml-key { color: #93c5fd; }
         <tr><td><strong>Multi-turn</strong></td><td>500 dialogs</td><td>HOI4D + 人工写 query</td><td>HOI4D 提供 bbox+物体序列，~12 工时人工写多轮 carry-over query</td></tr>
         <tr><td><strong>Hallucination</strong></td><td>500</td><td>Hypersim + HOI4D</td><td>POPE 风格 paired control（问场景里没有的物体 vs 有的物体配对）</td></tr>
         <tr><td><strong>Hard Cases</strong></td><td>500</td><td>AI2-THOR</td><td>程序化生成遮挡 / 低光 / 同类堆叠</td></tr>
-        <tr style="background:#dcfce7"><td><strong>合计</strong></td><td><strong>3,500</strong></td><td><strong>3 个主源</strong></td><td>每个维度只用一个数据集，避免跨源对齐麻烦</td></tr>
+        <tr><td><strong>Abstention</strong>（v5.1 新增）</td><td>500</td><td>Hypersim + HOI4D</td><td>refuse / clarify / over-refusal 三类平衡，单独维度评估</td></tr>
+        <tr style="background:#dcfce7"><td><strong>合计</strong></td><td><strong>5,000</strong></td><td><strong>3 个主源</strong></td><td>每个维度只用一个数据集，避免跨源对齐麻烦</td></tr>
       </tbody>
     </table>
 
@@ -667,7 +672,7 @@ pre .yaml-key { color: #93c5fd; }
     <table>
       <thead><tr><th>数据源</th><th>数量</th><th>比例</th><th>角色</th></tr></thead>
       <tbody>
-        <tr><td>DomesticGround train (3.5K × 2.5 epoch upsample)</td><td>8,750</td><td>23%</td><td>主任务对齐</td></tr>
+        <tr><td><strong>DomesticGround train</strong>（3,000 queries × 2.5 upsample = 7,500 instances）</td><td>7,500</td><td>20%</td><td>主任务对齐（v5.1 修正口径）</td></tr>
         <tr><td>RefCOCO/+/g 中文化改写 + 多轮包装</td><td>12,000</td><td>31.5%</td><td>Grounding 通用能力</td></tr>
         <tr><td><strong>HOI4D 家居 multi-frame</strong></td><td>5,000</td><td>13%</td><td>Spatial+Temporal grounding 唯一来源（v5 替换 Ego4D）</td></tr>
         <tr><td>LLaVA-Instruct-150K 子采样</td><td>6,000</td><td>16%</td><td>防 catastrophic forgetting（≥15% 是经验拐点）</td></tr>
@@ -790,7 +795,7 @@ s_t = [
 a1: ANSWER             <span class="cm"># 提交当前 top-1 候选</span>
 a2: ZOOM(bbox_i)       <span class="cm"># THOR 物理移动 + 1080p 重拍(不是 crop)</span>
 a3: WAIT               <span class="cm"># THOR advance simulator，等物体重现/视角变化</span>
-a4: CLARIFY(attr)      <span class="cm"># 调用 GPT-4o oracle 真正缩小候选集</span>
+a4: CLARIFY(attr)      <span class="cm"># LLM-as-user 模拟回答(主表用), oracle 仅 upper bound</span>
 a5: REJECT             <span class="cm"># 拒答(abstention)</span></pre>
 
     <h3 class="h3">🌍 主评估场景：AI2-THOR 300 episode</h3>
@@ -800,7 +805,7 @@ a5: REJECT             <span class="cm"># 拒答(abstention)</span></pre>
         <tr><td>Episode 设置</td><td>每 episode 10 物体，3-5 个同类干扰物，每物体随机 query</td></tr>
         <tr><td>ZOOM 实现</td><td><code>controller.step('Teleport', position=...)</code> + 高分辨率重拍</td></tr>
         <tr><td>WAIT 实现</td><td><code>controller.step('Pass') × N 步</code>，环境物体可能移动</td></tr>
-        <tr><td>CLARIFY 实现</td><td>GPT-4o oracle 根据 ground truth 给精确 disambiguation hint</td></tr>
+        <tr><td><strong>CLARIFY 三档</strong>（v5.1）</td><td><strong>主表：LLM-as-user</strong>（GPT-4o 扮演用户，输入 GT + agent question 输出自然回答；fidelity ≥ 85% 校验）<br><strong>Supplementary：</strong>Prolific human study 300 query 验证（Δ ≤ 5% 即声称 sim user 是 valid proxy）<br><strong>Upper bound only：</strong>Templated Oracle（仅放 appendix）</td></tr>
         <tr><td>Success criterion</td><td>最终 ANSWER 的 bbox IoU ≥ 0.5 vs ground truth</td></tr>
       </tbody>
     </table>
@@ -860,9 +865,25 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
       </tbody>
     </table>
 
+    <h3 class="h3">🌉 Bridge Table（v5.1 新增）：EAP 是否真正缓解 DomesticGround 揭示的失败？</h3>
+    <div class="alert alert-blue">
+      <strong>Reviewer 担忧：</strong>"DomesticGround 是 benchmark，EAP 主评估却在 AI2-THOR——那 EAP 到底是不是在解决 DomesticGround 发现的问题？"<br>
+      <strong>v5.1 回答：</strong>必须有一张表证明 EAP 在 <strong>DomesticGround 的 ambiguous / abstention / hard case 子集上</strong>真的有效。
+    </div>
+    <table>
+      <thead><tr><th>Setting</th><th>Acc@0.5</th><th>Hallucination Rate ↓</th><th>Abstention F1</th><th>Avg #Actions</th></tr></thead>
+      <tbody>
+        <tr><td>Frozen VLM (Qwen2.5-VL-7B)</td><td>62.1</td><td>28.4</td><td>41.2</td><td>1.0</td></tr>
+        <tr><td>+ EAP (no clarify)</td><td>67.8</td><td>21.0</td><td>48.5</td><td>1.6</td></tr>
+        <tr><td>+ EAP (LLM-as-user clarify, main)</td><td><strong>71.3</strong></td><td><strong>15.9</strong></td><td><strong>56.7</strong></td><td>2.1</td></tr>
+        <tr><td>+ EAP (oracle clarify, upper bound)</td><td><em>75.8</em></td><td><em>11.2</em></td><td><em>63.4</em></td><td>2.1</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px;color:#64748b;margin-top:6px">注：上述数字为 v5.1 计划阶段的<strong>预期值</strong>，实际跑出来后填实测；oracle 行仅放 appendix，主表用 LLM-as-user。</p>
+
     <div class="callout">
       <div class="callout-num">~88h</div>
-      <div class="callout-text"><strong>v5 增量工时</strong>：AI2-THOR 接入 +40h + 多 backbone 适配 +30h + cost-accuracy 实验 +18h（vs v4 原方案）</div>
+      <div class="callout-text"><strong>v5 增量工时</strong>：AI2-THOR 接入 +40h + 多 backbone 适配 +30h + cost-accuracy 实验 +18h（vs v4 原方案）。v5.1 再加 +10h 做 LLM-as-user clarify protocol + Bridge Table 实验</div>
     </div>
   </div>
 </div>
@@ -1162,7 +1183,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
     </table>
 
     <h3 class="h3">B. API Tokens（¥6,030，占 31%）</h3>
-    <p style="font-size:13.5px;color:#64748b;margin-bottom:8px">每条 VLM 调用 ~1,500 input + 300 output token；每个 baseline 在 ~3,500 条样本上跑（DomGround test 350 + RefCOCOg subsample 1,000 + HallusionBench 1,100 + Talk2Car 500 + POPE 500）</p>
+    <p style="font-size:13.5px;color:#64748b;margin-bottom:8px">每条 VLM 调用 ~1,500 input + 300 output token；每个 baseline 在 ~5,000 条样本上跑（DomGround test 350 + RefCOCOg subsample 1,000 + HallusionBench 1,100 + Talk2Car 500 + POPE 500）</p>
     <table class="compact">
       <thead><tr><th>项目</th><th>主跑</th><th>Rebuttal 重跑</th><th>小计</th></tr></thead>
       <tbody>
@@ -1252,7 +1273,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
       <h5>🔴 启动准备</h5>
       <ul>
         <li>下载 ScanNet++ / Hypersim / AI2-THOR / Ego4D（PolyU 校园网）</li>
-        <li>Benchmark schema v1 定稿（7 维度 + 失败 taxonomy 8 类）</li>
+        <li>Benchmark schema v1 定稿（8 维度含 Abstention + 失败 taxonomy 8 类）</li>
         <li>找 PI 谈 ¥2 万预算（带本 HTML + ROI 论点）</li>
         <li>招募 3 名标注同伴（PolyU 计算系同学，给奶茶钱）</li>
         <li>统一口径：早期 LoRA 效果不及预期，本轮用更大数据 + GRPO 重做</li>
@@ -1285,11 +1306,11 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
     </div>
 
     <div class="tl-row"><div class="tl-week"><div class="tl-dot dot-orange"></div><div class="tl-label">第 5-12 周</div></div><div class="tl-content">
-      <h5>🟠 3,500 条主标注</h5>
+      <h5>🟠 5,000 条主标注</h5>
       <ul>
         <li>每周 ≥ 400 条进度（含三人独立 + adjudication）</li>
         <li>第 8 周中检：累计 1,500 + Fleiss κ ≥ 0.65</li>
-        <li>第 12 周末：3,500 条全部冻结</li>
+        <li>第 12 周末：5,000 条全部冻结</li>
       </ul>
     </div></div>
 
@@ -1328,7 +1349,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
     <div class="tl-row"><div class="tl-week"><div class="tl-dot dot-yellow"></div><div class="tl-label">第 14-16 周</div></div><div class="tl-content">
       <h5>🟡 主实验：DomesticGround × 15 baseline × 7 dim</h5>
       <ul>
-        <li>所有 baseline 跑完整 3,500 条评估</li>
+        <li>所有 baseline 跑完整 5,000 条评估</li>
         <li>失败模式人工分类（每个 baseline 抽 200 case）</li>
         <li>3 个 insight 数据验证</li>
         <li>Bootstrap 95% CI + McNemar test</li>
@@ -1400,7 +1421,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
   <div class="section-body">
 
     <div class="alert alert-dark">
-      <strong>风险 1：标注做不到 3,500 条（发生概率高）</strong><br>
+      <strong>风险 1：标注做不到 5,000 条（发生概率高）</strong><br>
       3 个同学 × 8 周 × 每周 150 条 ≈ 3,600，刚好够。任何一个同学半路掉链子（考试周、找工作、突然忙），或 schema 中途大改要重标，进度立刻就崩了。<br><br>
       <strong>怎么救：</strong>① 备好 ¥2,000 应急金，紧急时挂 Prolific 外包 1,500 条 ② 提前准备一个 1,500 条的"最小版"作 fallback，至少能投 ③ 第 8 周中检不达标立刻砍 sub-task，不要硬撑
     </div>
@@ -1414,7 +1435,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
     <div class="alert alert-dark">
       <strong>风险 3：中期报告留下的"坑"（必须正视）</strong><br>
       之前中期报告里 LoRA 那版的数据是基于很小的 pilot 跑出来的，实测在更大数据集上效果不稳定，所以这次必须重训一版。如果论文还直接沿用中期那个 87% 数字而没新数据支撑，reviewer 一查复现就出问题。<br><br>
-      <strong>怎么救：</strong>论文里所有数字必须用新跑的 3,500 条 DomesticGround 重新生成；在 Limitations 里大方写 "早期 LoRA 配置受限于数据规模和训练资源，效果未达预期，本工作通过 SFT + GRPO 三阶段训练 + 公开数据集二次标注解决了这一问题"——把过去的不足转成 motivation，反而能体现项目演进的逻辑性。
+      <strong>怎么救：</strong>论文里所有数字必须用新跑的 5,000 条 DomesticGround 重新生成；在 Limitations 里大方写 "早期 LoRA 配置受限于数据规模和训练资源，效果未达预期，本工作通过 SFT + GRPO 三阶段训练 + 公开数据集二次标注解决了这一问题"——把过去的不足转成 motivation，反而能体现项目演进的逻辑性。
     </div>
 
     <div class="alert alert-dark">

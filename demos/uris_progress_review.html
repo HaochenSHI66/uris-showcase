@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>URIS — CVPR 2027 研究计划 v5.2（三轮 Reviewer 修订）</title>
+<title>URIS — CVPR 2027 研究计划</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f0f2f5; color: #1a1a2e; line-height: 1.75; font-size: 15px; }
@@ -179,14 +179,13 @@ pre .yaml-key { color: #93c5fd; }
 <body>
 
 <div class="header">
-  <span class="header-tag">v5.2 · 三轮 Reviewer 修订 · 8.2/10 · 可以开始 pilot</span>
-  <h1>URIS — CVPR 2027 研究计划 v5.2</h1>
-  <p class="subtitle">Benchmark-first + Findings + Compact Policy · 5,000 条 8 维评估 · 26 周倒计时</p>
-  <p class="meta">v4 → v5：处理 Reviewer #2 六大批评 · 14 个专业 Agent 累计调研 · 4 篇 prior work 实查比对 · 2026-05-10</p>
+  <span class="header-tag">CVPR 2027 投稿研究计划 · 26 周执行时间表</span>
+  <h1>URIS — CVPR 2027 研究计划</h1>
+  <p class="subtitle">Benchmark-first + Findings + Compact Policy · 5,000 条 8 维诊断评估 · 单人独立项目</p>
+  <p class="meta">面向 PolyU 内部汇报 · 2026-05-11</p>
   <div class="header-tags">
-    <span class="htag">Target: CVPR 2027 / Workshop</span>
+    <span class="htag">Target: CVPR 2027 Main / Workshop</span>
     <span class="htag">DomesticGround 5K / 8 维</span>
-    <span class="htag">Findings-driven novelty</span>
     <span class="htag">EAP Evidence Acquisition Policy</span>
     <span class="htag">100% 公开数据</span>
     <span class="htag">¥1.96 万预算</span>
@@ -198,15 +197,15 @@ pre .yaml-key { color: #93c5fd; }
 
 <!-- ════════════ HERO ════════════ -->
 <div class="hero">
-  <h2>🎯 v5.0 核心收紧（应对 Reviewer #2 六大批评）</h2>
+  <h2>🎯 项目定位</h2>
   <p class="tagline">
-    v4 的问题：<strong>三个贡献都太重，主线散了</strong>。Reviewer #2 直接说"很可能每条都做了，但每条都不够深"。v5 把论文压成更锋利的核心命题：
+    URIS 是一个面向 <strong>家居场景多轮视觉指代消解</strong> 的研究项目。我们识别出当前 SOTA VLM 的一个被忽视的失败模式：<strong>不是看不见物体，而是在歧义和时序上下判断太早（over-commit）</strong>。
   </p>
   <div class="quote" style="background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.3);color:#fef3c7;font-style:normal">
-    <strong style="color:#fcd34d">v5 论文一句话：</strong>"现有 VLM 在家居多轮 grounding 中失败，<strong>不是因为看不见，而是在歧义和时序上 over-commit</strong>。我们用 DomesticGround 揭示这个失败，用一个轻量 evidence acquisition policy 缓解它。"
+    <strong style="color:#fcd34d">论文主线：</strong>用 DomesticGround benchmark 揭示这个失败，用 EAP（Evidence Acquisition Policy）缓解它，跨多个 frozen VLM backbone 验证有效性。
   </div>
   <p class="tagline" style="margin-top:14px">
-    实质改动：① 数据从 Ego4D 退到 <strong>HOI4D</strong>（Ego4D 没逐帧 bbox，无法做 spatial IoU）② Benchmark 总量从 3,500 扩到 <strong>5,000</strong>（test 1,300）+ 加入 Abstention 维度成 8 维 ③ Active Policy 改名 <strong>EAP</strong>，主评估搬到 AI2-THOR 真交互环境 ④ 三阶段微调降级为 strong baseline recipe，不再当主贡献 ⑤ 新增 human upper bound + scene-disjoint split。
+    项目以 <strong>Benchmark-first</strong> 为论文核心载体：5,000 条 × 8 维诊断评估，scene-disjoint split，含 human upper bound。Method 部分提出一个 3M 参数的轻量 policy（5 actions），在 AI2-THOR 真交互环境主评估。所有数据 100% 来自公开数据集（Hypersim / HOI4D / AI2-THOR），无需 IRB 审批。
   </p>
   <div class="hero-grid">
     <div class="h-card">
@@ -215,17 +214,17 @@ pre .yaml-key { color: #93c5fd; }
       <div class="hsub">test=1,300，scene-disjoint split</div>
     </div>
     <div class="h-card">
-      <div class="hlbl">推荐总预算</div>
+      <div class="hlbl">总预算</div>
       <div class="hval">¥1.96 万</div>
       <div class="hsub">A800 ¥5/h · 同学标注</div>
     </div>
     <div class="h-card">
       <div class="hlbl">EAP 评估环境</div>
       <div class="hval">AI2-THOR</div>
-      <div class="hsub">300 episode 真交互（不是裁 crop）</div>
+      <div class="hsub">300 episode 真交互</div>
     </div>
     <div class="h-card">
-      <div class="hlbl">已实查 prior work</div>
+      <div class="hlbl">已对比 Prior Work</div>
       <div class="hval">4 篇</div>
       <div class="hsub">InViG / IRef-VLA / SAMA / Active-O3</div>
     </div>
@@ -233,7 +232,7 @@ pre .yaml-key { color: #93c5fd; }
   <div class="callout" style="background:rgba(0,0,0,0.25);border:none;margin-top:18px">
     <div class="callout-num" style="color:#fcd34d">📋</div>
     <div class="callout-text" style="color:#fef3c7">
-      <strong>v5 abstract 草稿：</strong>"We identify that VLMs fail at <strong>multi-turn domestic reference resolution</strong> not because of poor recognition, but because they over-commit under ambiguity and temporal context. We expose this failure with <strong>DomesticGround</strong>, a 5K-query diagnostic benchmark with explicit abstention labels, and mitigate it with <strong>EAP</strong>, a lightweight evidence acquisition policy that improves accuracy and reduces hallucination across multiple frozen VLM backbones."
+      <strong>论文 abstract：</strong>"We identify that VLMs fail at <strong>multi-turn domestic reference resolution</strong> not because of poor recognition, but because they over-commit under ambiguity and temporal context. We expose this failure with <strong>DomesticGround</strong>, a 5K-query diagnostic benchmark with explicit abstention labels, and mitigate it with <strong>EAP</strong>, a lightweight evidence acquisition policy that improves accuracy and reduces hallucination across multiple frozen VLM backbones."
     </div>
   </div>
 </div>
@@ -242,98 +241,24 @@ pre .yaml-key { color: #93c5fd; }
 <div class="toc">
   <h3>目录</h3>
   <ol>
-    <li><a href="#v5changes">⓪ v5 修订对照（必读）</a></li>
-    <li><a href="#status">① 当前状态 + Agent 调研</a></li>
+    <li><a href="#status">① 项目现状盘点</a></li>
     <li><a href="#theory">② 理论依据 + Prior Work 差异化</a></li>
-    <li><a href="#contribution">③ 三大 Contribution（v5 重写版）</a></li>
-    <li><a href="#data">④ 数据挑选（HOI4D + Hypersim + AI2-THOR）</a></li>
-    <li><a href="#finetune">⑤ 三阶段微调（降级为 baseline recipe）</a></li>
+    <li><a href="#contribution">③ 三大 Contribution</a></li>
+    <li><a href="#data">④ 数据挑选（Hypersim + HOI4D + AI2-THOR）</a></li>
+    <li><a href="#finetune">⑤ 三阶段微调（作为 baseline recipe）</a></li>
     <li><a href="#policy">⑥ EAP — Evidence Acquisition Policy</a></li>
     <li><a href="#infra">⑦ 训练基础设施 + 超参</a></li>
     <li><a href="#eval">⑧ 评估（5K / 8 维 / scene-disjoint / human upper bound）</a></li>
     <li><a href="#paper">⑨ 论文叙事 + Framing</a></li>
-    <li><a href="#budget">⑩ 精简预算（¥1.96 万）</a></li>
+    <li><a href="#budget">⑩ 完整预算（¥1.96 万）</a></li>
     <li><a href="#timeline">⑪ 26 周时间线</a></li>
     <li><a href="#risk">⑫ 风险 + Workshop Fallback</a></li>
   </ol>
 </div>
 
-<!-- ════════════ ⓪ v5 修订对照 ════════════ -->
-<div class="section" id="v5changes" style="border-left:5px solid #ef4444">
-  <div class="section-title" style="background:linear-gradient(90deg,#fef2f2,#fff);">
-    <h2>⓪ v5 修订对照表（先看这个）</h2>
-    <div class="sub">Reviewer #2 六大批评 → 6 项实质修改 · 4 个调研 Agent 已落实</div>
-  </div>
-  <div class="section-body">
-
-    <table>
-      <thead><tr><th width="20%">Reviewer 批评</th><th width="35%">v4 的问题</th><th width="35%">v5 的修改</th><th width="10%">章节</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>1. Novelty 写太大</strong></td>
-          <td>"首个 multi-turn / interactive grounding benchmark"——InViG / IRef-VLA / SAMA 都占位了</td>
-          <td>降级为精确措辞："2D RGB 家居杂乱 × multi-turn carry-over × abstention × paired hallucination control 的 <strong>诊断型</strong> benchmark"</td>
-          <td>② ③</td>
-        </tr>
-        <tr>
-          <td><strong>2. 三贡献过散</strong></td>
-          <td>Benchmark + Fine-tuning + Active Policy 平行写，每条都不够深</td>
-          <td>主线收紧为 <strong>Benchmark-first</strong>。C2 改为 <strong>Findings</strong>（三条数字断言），三阶段微调降级为 baseline recipe</td>
-          <td>③</td>
-        </tr>
-        <tr>
-          <td><strong>3. Split 数字矛盾</strong></td>
-          <td>3,500 总量 / 8,750 train upsample / 350 test 三个数字对不上</td>
-          <td>统一改为：<strong>5,000 总量</strong>，单轮 train/val/test = 3,000/700/1,300，dialogs = 400/100/200，全部自洽</td>
-          <td>⑧</td>
-        </tr>
-        <tr>
-          <td><strong>4. Ego4D 没逐帧 bbox</strong></td>
-          <td>NLQ/MQ/Goal-Step 只有时间窗口，VQ/EgoTracks 有 bbox 但 query 是图像</td>
-          <td><strong>退到 HOI4D</strong>（610 室内场景，逐帧 bbox 现成）做 spatial+temporal IoU；Ego4D Goal-Step 仅做 time-window IoU</td>
-          <td>④</td>
-        </tr>
-        <tr>
-          <td><strong>5. C3 像 decision head</strong></td>
-          <td>Active Policy 只在静态图裁 crop，不是真正 active</td>
-          <td>改名 <strong>EAP</strong>，主评估搬到 <strong>AI2-THOR 300 episode</strong>（ZOOM=物理移动+1080p 重拍，WAIT=THOR advance），跨 3 个 frozen backbone</td>
-          <td>⑥</td>
-        </tr>
-        <tr>
-          <td><strong>6. "打败 GPT-4o" framing 不科学</strong></td>
-          <td>在自己 train split 上 domain adapt 后比 zero-shot GPT-4o 当然赢，没说服力</td>
-          <td>改为 <strong>zero-shot failure analysis + OOD transfer</strong>（Talk2Car / RefCOCOg / unseen scene 才是主战场）</td>
-          <td>⑧ ⑨</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3 class="h3">📚 4 篇必引 Prior Work（已实查）</h3>
-    <table class="compact">
-      <thead><tr><th>论文</th><th>arXiv</th><th>占了什么位置</th><th>URIS 差异</th></tr></thead>
-      <tbody>
-        <tr><td><strong>InViG</strong></td><td>2310.12147</td><td>520K 图像 + 人机消歧对话，baseline 45.6%</td><td>URIS 是 <strong>诊断型 + 失败 taxonomy</strong>，不是大规模训练集</td></tr>
-        <tr><td><strong>IRef-VLA</strong></td><td>2503.17406 (ICRA'25)</td><td>11.5K <strong>3D scanned rooms</strong> + imperfect language</td><td>URIS 是 <strong>2D RGB</strong>，不是 3D；focus on multi-turn carry-over</td></tr>
-        <tr><td><strong>SAMA</strong></td><td>2505.18812 (NeurIPS'25)</td><td>522 <strong>video</strong> / 5,067 questions，spatio-temporal mask grounding</td><td>URIS <strong>主战场是 2D-RGB image grounding</strong>，<strong>auxiliary temporal split</strong> 仅测 carry-over 和 over-commitment（拆为 DomesticGround-Image 和 DomesticGround-Temporal 两个 subset，避免和 SAMA 直接打）</td></tr>
-        <tr><td><strong>Active-O3</strong></td><td>2505.21457</td><td>GRPO 训练 <strong>zoom-in 单动作</strong>，仅静态图，仅 Qwen2.5-VL-7B</td><td>URIS 是 <strong>5-action 多模式 + AI2-THOR 真交互 + 多 backbone</strong></td></tr>
-      </tbody>
-    </table>
-
-    <div class="alert alert-purple" style="margin-top:14px">
-      <strong>URIS 真正能站住的 4 元交集：</strong><br>
-      <strong>2D RGB 家居杂乱图像 × multi-turn reference carry-over × ambiguity-aware abstention × paired hallucination control</strong><br>
-      这个交集目前没有专门 benchmark——这是 URIS 的死守阵地。Reviewer #2 自己都说"这个交集可能还有空间"。
-    </div>
-
-    <div class="alert alert-yellow" style="margin-top:14px">
-      <strong>v5 论文 abstract 草稿：</strong>"Current VLMs do not primarily fail at domestic visual grounding because they cannot see objects; they fail because they over-commit under ambiguity and temporal context. We expose this failure with <strong>DomesticGround</strong>, a 5K-query diagnostic benchmark jointly evaluating reference resolution, abstention, and hallucination with explicit paired controls. We further mitigate it with <strong>EAP</strong>, a lightweight evidence acquisition policy that improves grounding accuracy and reduces hallucination across multiple frozen VLM backbones, evaluated in interactive AI2-THOR environments."
-    </div>
-  </div>
-</div>
-
 <!-- ════════════ ① 状态 ════════════ -->
 <div class="section" id="status">
-  <div class="section-title"><h2>① 当前实际状态 + 10 Agent 调研发现</h2></div>
+  <div class="section-title"><h2>① 项目现状盘点</h2></div>
   <div class="section-body">
 
     <div class="grid3" style="margin-bottom:20px">
@@ -346,20 +271,18 @@ pre .yaml-key { color: #93c5fd; }
       <strong style="color:#92400e">⚠️ 这条得自己留心：</strong>中期报告里写过 "LoRA fine-tuning improved accuracy 79%→87%"，但那版 LoRA 实测下来效果不太行（数据不够 + 配置没调好），需要这次用新数据 + 新方法重新训一版。论文里别再引中期那个 87% 的数字了——<strong>当前 30+850 条只是 pilot 阶段，论文最终结果全部基于新跑的 5,000 条正式集 DomesticGround</strong>。
     </div>
 
-    <h3 class="h3">📊 10 Agent 调研结论合集</h3>
+    <h3 class="h3">📊 关键技术决策（已敲定）</h3>
     <table>
-      <thead><tr><th width="20%">Agent 角色</th><th>核心结论</th></tr></thead>
+      <thead><tr><th width="25%">维度</th><th>决策</th></tr></thead>
       <tbody>
-        <tr><td><strong>UX Architect</strong><br>前端审计</td><td>当前 Streamlit 16-25s 白屏。WebRTC 前端 70% 已就绪。<strong>真瓶颈在 vl_agent 同步阻塞</strong>。改 async generator + 三阶段 thinking indicator 可降 TTFT 到 &lt;1s</td></tr>
-        <tr><td><strong>Performance</strong><br>后端性能</td><td>实测 p50 = 44.5s，VL 占 93%。O1+O2+O3+O5 组合（streaming + 并发 + keyword 短路 + VL-Plus）1.5 天可降至 TTFT 1.2s</td></tr>
-        <tr><td><strong>AI Engineer</strong><br>投稿策略</td><td>CVPR 路线最佳：Benchmark + 轻量 Method hybrid。HallusionBench / MMVP / POPE 都是 finding-driven benchmark 模式</td></tr>
-        <tr><td><strong>Product Manager</strong><br>Proposal 审计</td><td>项目定位经 3 次演变。论文措辞改 "domestic scene monitoring & interaction platform"，避开 assistant/agent 字眼</td></tr>
-        <tr><td><strong>Reviewer #2</strong><br>顶会严审</td><td>原 30 条评估差一个数量级（同行均值 800-10000）。Kappa ≥ 0.80 过度乐观（OntoNotes 也只 0.78）。Contribution 必须有 ≥1 个 trained module</td></tr>
-        <tr><td><strong>CVPR 策略</strong></td><td>Benchmark 路径 6.5/10 接受概率，Method 路径 3/10。推荐 hybrid。先例：HallusionBench、GLaMM 都是 CVPR'24 收的</td></tr>
-        <tr><td><strong>视觉算法贡献</strong></td><td>5 个候选方向，最佳 = <strong>Active Perception Policy</strong>（3M Transformer + PPO，5 actions：ANSWER/ZOOM/CLARIFY/WAIT/REJECT）</td></tr>
-        <tr><td><strong>Benchmark 设计</strong></td><td>DomesticGround：5,000 条 / 8 维度 / 12-15 baseline / Fleiss κ ≥ 0.65 / 3 个 hypothesis-driven insight</td></tr>
-        <tr><td><strong>SOTA VLM 微调</strong></td><td>推荐 SFT + DPO / GRPO 三阶段。VLM-R1 / Visual-RFT 范式。预期 RefCOCOg 90-92%</td></tr>
-        <tr><td><strong>Visual Grounding Tricks</strong></td><td>5 个高 ROI trick：原生 box token + AnyRes + 课程学习 + 加权 loss + GRPO refinement</td></tr>
+        <tr><td><strong>论文形态</strong></td><td>Benchmark + Findings + Compact Policy 三件套，主线收紧为 Benchmark-first，三阶段微调降级为 baseline recipe</td></tr>
+        <tr><td><strong>投稿目标</strong></td><td>CVPR 2027 Main 主投，Workshop（CVPR Embodied AI / Foundation Models for V+L）作为兜底</td></tr>
+        <tr><td><strong>数据策略</strong></td><td>100% 公开数据集 + 自补 language query。3 张主牌：Hypersim / HOI4D / AI2-THOR</td></tr>
+        <tr><td><strong>Benchmark 规模</strong></td><td>DomesticGround：5,000 条 / 8 维度 / 12-15 baseline / Fleiss κ ≥ 0.65 / hypothesis-driven 3 条 finding</td></tr>
+        <tr><td><strong>训练方法</strong></td><td>SFT(warmup) → SFT(domain) → GRPO 三阶段，参考 VLM-R1 / Visual-RFT 范式</td></tr>
+        <tr><td><strong>Backbone 选择</strong></td><td>Qwen3-VL-30B-A3B (主) + InternVL3.5-14B (对照)，目标 RefCOCOg ≥ 90%</td></tr>
+        <tr><td><strong>方法贡献</strong></td><td>EAP (Evidence Acquisition Policy)：3M 参数轻量 policy，5 actions，AI2-THOR 真交互评估</td></tr>
+        <tr><td><strong>评估严谨度</strong></td><td>Scene-disjoint split + Bootstrap 95% CI + McNemar test + Human Upper Bound</td></tr>
       </tbody>
     </table>
   </div>
@@ -526,7 +449,7 @@ pre .yaml-key { color: #93c5fd; }
   <div class="section-body">
 
     <div class="quote">
-      <strong>One-line Research Question（v5）：</strong><br>
+      <strong>One-line Research Question：</strong><br>
       "Do current VLMs fail at multi-turn domestic grounding because they cannot see, or because they over-commit under ambiguity—and can a lightweight <strong>evidence acquisition policy</strong> close the gap without retraining the VLM?"
     </div>
 
@@ -535,13 +458,13 @@ pre .yaml-key { color: #93c5fd; }
       <tbody>
         <tr>
           <td><span class="badge b-cvpr">C1</span></td>
-          <td><strong>DomesticGround Benchmark</strong>（v5 重写）：诊断型 benchmark for 2D 家居 reference resolution，<strong>5,000 queries × 8 维度</strong>（含 Abstention），<strong>scene-disjoint split</strong>（train/val/test = 3,000/700/1,300），含 explicit <code>AMBIGUOUS</code> / <code>SYSTEM_UNSUPPORTED</code> 标签 + paired hallucination control + human upper bound。措辞避开 "first multi-turn"（InViG/SAMA 已占位），改为 "<strong>jointly evaluates</strong> domestic clutter × multi-turn carry-over × abstention × hallucination"</td>
+          <td><strong>DomesticGround Benchmark</strong>：诊断型 benchmark for 2D 家居 reference resolution，<strong>5,000 queries × 8 维度</strong>（含 Abstention），<strong>scene-disjoint split</strong>（train/val/test = 3,000/700/1,300），含 explicit <code>AMBIGUOUS</code> / <code>SYSTEM_UNSUPPORTED</code> 标签 + paired hallucination control + human upper bound。措辞避开 "first multi-turn"（InViG/SAMA 已占位），改为 "<strong>jointly evaluates</strong> domestic clutter × multi-turn carry-over × abstention × hallucination"</td>
           <td>15 baseline × 8 维 × 3 metrics + Fleiss κ ≥ 0.65 IAA</td>
           <td>§3 Benchmark + Table 1, 2</td>
         </tr>
         <tr>
           <td><span class="badge b-cvpr">C2</span></td>
-          <td><strong>Systematic findings</strong>（v5.1 改为 hypotheses）：通过 15 个 VLM 在 5,000 条上的零样本评估，<strong>测试 3 个核心假设</strong>：<br>
+          <td><strong>Systematic findings</strong>：通过 15 个 VLM 在 5,000 条上的零样本评估，<strong>测试 3 个核心假设</strong>：<br>
           <strong>H1</strong>：single-turn grounding performance does not predict multi-turn carry-over robustness<br>
           <strong>H2</strong>：a substantial fraction of hallucinations come from over-commitment under ambiguity<br>
           <strong>H3</strong>：clarification ability is weakly correlated with standard grounding accuracy<br>
@@ -551,7 +474,7 @@ pre .yaml-key { color: #93c5fd; }
         </tr>
         <tr>
           <td><span class="badge b-cvpr">C3</span></td>
-          <td><strong>EAP — Evidence Acquisition Policy</strong>（v5.2 进一步收紧）：3M-param 轻量 policy，5 actions（ANSWER / ZOOM / WAIT / CLARIFY / REJECT）<strong>真正改变可用证据</strong>（不是裁 crop）：ZOOM = AI2-THOR 物理移动 + 1080p 重拍；WAIT = THOR advance simulator；<strong>CLARIFY = template-based user simulator（主表）</strong>，LLM-as-user 仅 robustness setting，oracle 仅 upper bound。Backbone-agnostic 通过 candidate proposal adapter 统一接口（cross-backbone calibration ablation 验证），跨 Qwen2.5-VL / LLaVA-OV / InternVL3 三个 frozen backbone</td>
+          <td><strong>EAP — Evidence Acquisition Policy</strong>：3M-param 轻量 policy，5 actions（ANSWER / ZOOM / WAIT / CLARIFY / REJECT）<strong>真正改变可用证据</strong>（不是裁 crop）：ZOOM = AI2-THOR 物理移动 + 1080p 重拍；WAIT = THOR advance simulator；<strong>CLARIFY = template-based user simulator（主表）</strong>，LLM-as-user 仅 robustness setting，oracle 仅 upper bound。Backbone-agnostic 通过 candidate proposal adapter 统一接口（cross-backbone calibration ablation 验证），跨 Qwen2.5-VL / LLaVA-OV / InternVL3 三个 frozen backbone</td>
           <td>AI2-THOR 300 episode 主结果 + 多 backbone 验证 + cost-accuracy Pareto frontier</td>
           <td>§5 EAP + Figure 4-6</td>
         </tr>
@@ -563,13 +486,13 @@ pre .yaml-key { color: #93c5fd; }
 <!-- ════════════ ④ 公开数据集 ════════════ -->
 <div class="section" id="data">
   <div class="section-title">
-    <h2>④ 数据挑选 v5 最终方案（Ego4D → HOI4D）</h2>
+    <h2>④ 数据挑选最终方案</h2>
     <div class="sub">100% 公开数据集 · 无 IRB / 无 PII 麻烦 · 总下载约 350GB</div>
   </div>
   <div class="section-body">
 
     <div class="alert alert-red">
-      <strong>v5 关键修改：Ego4D 退到 HOI4D。</strong>Reviewer #2 一针见血指出 Ego4D NLQ/MQ 只有时间窗口（zero bbox），VQ/EgoTracks 有 bbox 但 query 是图像不是语言。要算 <code>Acc@IoU=0.5</code> 必须有逐帧 bbox + 语言 query，<strong>HOI4D（610 室内场景，逐帧 bbox 现成）</strong>是唯一同时满足的家居视频源。Ego4D Goal-Step 仅做 time-window IoU 评估（不算 spatial）。
+      <strong>为什么用 HOI4D 而非 Ego4D：</strong>Ego4D 的 NLQ/MQ 任务只标注时间窗口（zero bbox），VQ/EgoTracks 有 bbox 但 query 是图像不是语言。要算 <code>Acc@IoU=0.5</code> 必须有逐帧 bbox + 语言 query，<strong>HOI4D（610 室内场景，逐帧 bbox 现成）</strong>是家居视频源中唯一同时满足这两个条件的。Ego4D Goal-Step 仅做 time-window IoU 评估辅助。
     </div>
 
     <div class="alert alert-green">
@@ -587,8 +510,8 @@ pre .yaml-key { color: #93c5fd; }
           <td>免注册直接下</td>
         </tr>
         <tr style="background:#fef3c7">
-          <td><strong>HOI4D</strong> ⭐⭐⭐<br><small>（v5 替换 Ego4D）</small></td>
-          <td><strong>提供视觉监督，language query 我们自己构造</strong>（v5.1 措辞修正）。HOI4D 自带：panoptic seg / motion seg / 3D hand pose / category-level pose / action label / 重建 mesh — 但<strong>没有 language 标注</strong>。URIS 利用其 frame-wise spatial annotations 推导 bbox supervision，referring expression + ambiguity + abstention label 自补。Pilot 子集化到 800 序列 × 2 query ≈ 1.6K</td>
+          <td><strong>HOI4D</strong> ⭐⭐⭐<br><small></small></td>
+          <td><strong>提供视觉监督，language query 我们自己构造</strong>。HOI4D 自带：panoptic seg / motion seg / 3D hand pose / category-level pose / action label / 重建 mesh — 但<strong>没有 language 标注</strong>。URIS 利用其 frame-wise spatial annotations 推导 bbox supervision，referring expression + ambiguity + abstention label 自补。Pilot 子集化到 800 序列 × 2 query ≈ 1.6K</td>
           <td>学术免费</td>
           <td>免注册，github 直接下</td>
         </tr>
@@ -634,7 +557,7 @@ pre .yaml-key { color: #93c5fd; }
       </tbody>
     </table>
 
-    <h3 class="h3">📦 8 维度 × 数据源最终映射（v5.1 含 Abstention）</h3>
+    <h3 class="h3">📦 8 维度 × 数据源最终映射</h3>
     <table>
       <thead><tr><th width="14%">维度</th><th width="8%">数量</th><th>主源</th><th>采样策略</th></tr></thead>
       <tbody>
@@ -645,7 +568,7 @@ pre .yaml-key { color: #93c5fd; }
         <tr><td><strong>Multi-turn</strong></td><td>500 dialogs</td><td>HOI4D + 人工写 query</td><td>HOI4D 提供 bbox+物体序列，~12 工时人工写多轮 carry-over query</td></tr>
         <tr><td><strong>Hallucination</strong></td><td>500</td><td>Hypersim + HOI4D</td><td>POPE 风格 paired control（问场景里没有的物体 vs 有的物体配对）</td></tr>
         <tr><td><strong>Hard Cases</strong></td><td>500</td><td>AI2-THOR</td><td>程序化生成遮挡 / 低光 / 同类堆叠</td></tr>
-        <tr><td><strong>Abstention</strong>（v5.1 新增）</td><td>500</td><td>Hypersim + HOI4D</td><td>refuse / clarify / over-refusal 三类平衡，单独维度评估</td></tr>
+        <tr><td><strong>Abstention</strong></td><td>500</td><td>Hypersim + HOI4D</td><td>refuse / clarify / over-refusal 三类平衡，单独维度评估</td></tr>
         <tr style="background:#dcfce7"><td><strong>合计</strong></td><td><strong>5,000</strong></td><td><strong>3 个主源</strong></td><td>每个维度只用一个数据集，避免跨源对齐麻烦</td></tr>
       </tbody>
     </table>
@@ -665,21 +588,21 @@ pre .yaml-key { color: #93c5fd; }
     </table>
 
     <div class="alert alert-purple" style="margin-top:14px">
-      <strong>一句话挑选逻辑（v5）：</strong>Hypersim 一个数据集解决 5 个维度（同时有 RGB + 深度 + instance），<strong>HOI4D</strong> 解决视频维度（必须有逐帧 bbox），AI2-THOR 解决 hard cases + EAP 主评估环境——<strong>3 个数据集吃掉所有需求</strong>。Ego4D 只做时序长视频辅助，不再依赖它做 spatial grounding。
+      <strong>挑选逻辑：</strong>Hypersim 一个数据集解决 5 个维度（同时有 RGB + 深度 + instance），<strong>HOI4D</strong> 解决视频维度（必须有逐帧 bbox），AI2-THOR 解决 hard cases + EAP 主评估环境——<strong>3 个数据集吃掉所有需求</strong>。Ego4D 只做时序长视频辅助，不再依赖它做 spatial grounding。
     </div>
 
     <h3 class="h3">🎯 微调训练数据（38K 样本，全公开）</h3>
     <table>
       <thead><tr><th>数据源</th><th>数量</th><th>比例</th><th>角色</th></tr></thead>
       <tbody>
-        <tr><td><strong>DomesticGround train</strong>（3,000 queries × 2.5 upsample = 7,500 instances）</td><td>7,500</td><td>20%</td><td>主任务对齐（v5.1 修正口径）</td></tr>
+        <tr><td><strong>DomesticGround train</strong>（3,000 queries × 2.5 upsample = 7,500 instances）</td><td>7,500</td><td>20%</td><td>主任务对齐</td></tr>
         <tr><td>RefCOCO/+/g 中文化改写 + 多轮包装</td><td>12,000</td><td>31.5%</td><td>Grounding 通用能力</td></tr>
-        <tr><td><strong>HOI4D 家居 multi-frame</strong></td><td>5,000</td><td>13%</td><td>Spatial+Temporal grounding 唯一来源（v5 替换 Ego4D）</td></tr>
+        <tr><td><strong>HOI4D 家居 multi-frame</strong></td><td>5,000</td><td>13%</td><td>Spatial+Temporal grounding 唯一来源</td></tr>
         <tr><td>LLaVA-Instruct-150K 子采样</td><td>6,000</td><td>16%</td><td>防 catastrophic forgetting（≥15% 是经验拐点）</td></tr>
         <tr><td>Synthetic（SAM segment+paste 歧义场景）</td><td>4,000</td><td>10.5%</td><td>Hard cases / Clarification 训练</td></tr>
         <tr><td>Hallucination negatives（POPE 风格）</td><td>2,250</td><td>6%</td><td>抑制幻觉</td></tr>
-        <tr><td>Abstention-specific samples（v5.2 补齐）</td><td>1,250</td><td>3%</td><td>新 Abstention 维度的训练数据，refuse/clarify/over-refusal 平衡</td></tr>
-        <tr style="background:#dcfce7"><td><strong>训练总计</strong></td><td><strong>38,000</strong></td><td>100%</td><td>v5.2 算术校准：7,500+12,000+5,000+6,000+4,000+2,250+1,250 = 38,000</td></tr>
+        <tr><td>Abstention-specific samples</td><td>1,250</td><td>3%</td><td>新 Abstention 维度的训练数据，refuse/clarify/over-refusal 平衡</td></tr>
+        <tr style="background:#dcfce7"><td><strong>训练总计</strong></td><td><strong>38,000</strong></td><td>100%</td><td>算术校验：7,500+12,000+5,000+6,000+4,000+2,250+1,250 = 38,000</td></tr>
       </tbody>
     </table>
   </div>
@@ -688,13 +611,13 @@ pre .yaml-key { color: #93c5fd; }
 <!-- ════════════ ⑤ 微调策略 ════════════ -->
 <div class="section" id="finetune">
   <div class="section-title">
-    <h2>⑤ 三阶段微调（v5 降级为 strong baseline recipe）</h2>
+    <h2>⑤ 三阶段微调（定位为 strong baseline recipe）</h2>
     <div class="sub">基于 Visual-RFT [13] / VLM-R1 [14] / Reason-RFT [15] 范式 · 不再当 contribution</div>
   </div>
   <div class="section-body">
 
     <div class="alert alert-yellow">
-      <strong>v5 关键调整（应对 Reviewer #2）：</strong>v4 把"Three-stage Fine-tuned MoE-VLM"作为 C2 主贡献——但 Visual-RFT / VLM-R1 / Reason-RFT 已经把这条路铺得很深，自己再做一遍像"已有方法组合"。<strong>v5 把它降级为 strong baseline recipe</strong>，论文里写在 Method §4.2，说明"我们提供一个 reproducible recipe 给社区"，不抢主角。新的 C2 改为 <strong>Findings</strong>（见 §3 Contribution）。
+      <strong>定位说明：</strong>Visual-RFT / VLM-R1 / Reason-RFT 已经把 SFT + GRPO 这条路铺得很深，URIS 的三阶段微调 <strong>定位为 strong baseline recipe</strong>（论文 §4.2），向社区贡献一个 reproducible recipe，不作为主 contribution。主 contribution 是 Findings（见 §3）。
     </div>
 
     <div class="alert alert-purple">
@@ -770,17 +693,17 @@ pre .yaml-key { color: #93c5fd; }
 <!-- ════════════ ⑥ Active Policy ════════════ -->
 <div class="section" id="policy">
   <div class="section-title">
-    <h2>⑥ EAP — Evidence Acquisition Policy（v5 重设计）</h2>
+    <h2>⑥ EAP — Evidence Acquisition Policy</h2>
     <div class="sub">不再叫 "Active Perception Policy" · 真正改变可用证据 · 跨 backbone · cost-accuracy 量化</div>
   </div>
   <div class="section-body">
 
     <div class="alert alert-red">
-      <strong>v5 关键修改（应对 Reviewer #2）：</strong>v4 的 Active Policy 只在静态图裁 crop——reviewer 直接说"这只是 decision head，不是真正 active perception"，且与 <strong>Active-O3 (2505.21457)</strong> 重叠度高。v5 三大重设计：① 主评估搬到 <strong>AI2-THOR 真交互</strong>（ZOOM = 物理移动 + 1080p 重拍） ② Backbone-agnostic（state 不送 visual feature，跨 3 个 frozen VLM） ③ cost-accuracy Pareto 量化（4 个新指标）。
+      <strong>设计核心：</strong>EAP 不是单纯的 decision head，而是真正的 active perception——主评估搬到 <strong>AI2-THOR 真交互环境</strong>（ZOOM = 物理移动 + 1080p 重拍，WAIT = THOR advance simulator）。区别于 Active-O3 (2505.21457) 仅静态图 + 单 ZOOM 动作，URIS 三大设计：① AI2-THOR 真交互（不是裁 crop） ② Backbone-agnostic（state 不送 visual feature，跨 3 个 frozen VLM） ③ cost-accuracy Pareto 量化（4 个新指标）。
     </div>
 
     <h3 class="h3">🧠 EAP Policy 设计（backbone-agnostic state）</h3>
-    <pre><span class="cm"># v5 State s_t (14 维 confidence/几何/历史向量，不送 visual feature)</span>
+    <pre><span class="cm"># State s_t (14 维 confidence/几何/历史向量，不送 visual feature)</span>
 s_t = [
     top_k_confidence (k=5),          <span class="cm"># VLM top-5 候选 prob</span>
     bbox_geometry (k=5, 4-d each),   <span class="cm"># 候选 bbox 归一化坐标</span>
@@ -796,7 +719,7 @@ s_t = [
 a1: ANSWER             <span class="cm"># 提交当前 top-1 候选</span>
 a2: ZOOM(bbox_i)       <span class="cm"># THOR 物理移动 + 1080p 重拍(不是 crop)</span>
 a3: WAIT               <span class="cm"># THOR advance simulator，等物体重现/视角变化</span>
-a4: CLARIFY(attr)      <span class="cm"># template-based user simulator(v5.2 主表), LLM-as-user/oracle 仅 robustness/upper bound</span>
+a4: CLARIFY(attr)      <span class="cm"># template-based user simulator (主表), LLM-as-user/oracle 仅 robustness/upper bound</span>
 a5: REJECT             <span class="cm"># 拒答(abstention)</span></pre>
 
     <h3 class="h3">🌍 主评估场景：AI2-THOR 300 episode</h3>
@@ -806,12 +729,12 @@ a5: REJECT             <span class="cm"># 拒答(abstention)</span></pre>
         <tr><td>Episode 设置</td><td>每 episode 10 物体，3-5 个同类干扰物，每物体随机 query</td></tr>
         <tr><td>ZOOM 实现</td><td><code>controller.step('Teleport', position=...)</code> + 高分辨率重拍</td></tr>
         <tr><td>WAIT 实现</td><td><code>controller.step('Pass') × N 步</code>，环境物体可能移动</td></tr>
-        <tr><td><strong>CLARIFY 三档</strong>（v5.2 修正主表）</td><td><strong>主表：Template-based User Simulator</strong>（基于已标注属性回答颜色/位置/大小，可复现，无 LLM 不稳定性）<br><strong>Robustness setting：</strong>LLM-as-user（GPT-4o 扮演用户，验证 EAP 对回答风格变化的鲁棒性）<br><strong>Supplementary：</strong>Prolific human study 300 query 验证 template 的有效性<br><strong>Upper bound only：</strong>Templated Oracle（仅放 appendix）</td></tr>
+        <tr><td><strong>CLARIFY 三档</strong></td><td><strong>主表：Template-based User Simulator</strong>（基于已标注属性回答颜色/位置/大小，可复现，无 LLM 不稳定性）<br><strong>Robustness setting：</strong>LLM-as-user（GPT-4o 扮演用户，验证 EAP 对回答风格变化的鲁棒性）<br><strong>Supplementary：</strong>Prolific human study 300 query 验证 template 的有效性<br><strong>Upper bound only：</strong>Templated Oracle（仅放 appendix）</td></tr>
         <tr><td>Success criterion</td><td>最终 ANSWER 的 bbox IoU ≥ 0.5 vs ground truth</td></tr>
       </tbody>
     </table>
 
-    <h3 class="h3">📊 4 个量化指标（Reviewer-grade）</h3>
+    <h3 class="h3">📊 4 个量化指标（顶会标准）</h3>
     <table>
       <thead><tr><th>指标</th><th>定义</th><th>论文位置</th></tr></thead>
       <tbody>
@@ -822,9 +745,9 @@ a5: REJECT             <span class="cm"># 拒答(abstention)</span></pre>
       </tbody>
     </table>
 
-    <h3 class="h3">🔄 Backbone-Agnostic 验证（v5.2 加 calibration ablation）</h3>
-    <p style="font-size:14px"><strong>Reviewer 担忧：</strong>不同 VLM 的 top-k confidence 和候选生成机制不一致，"plug-and-play"会被削弱。</p>
-    <p style="font-size:14px"><strong>v5.2 解决方案：</strong></p>
+    <h3 class="h3">🔄 Backbone-Agnostic 验证</h3>
+    <p style="font-size:14px"><strong>核心挑战：</strong>不同 VLM 的 top-k confidence 和候选生成机制不一致，需要 normalize 才能真正实现 plug-and-play。</p>
+    <p style="font-size:14px"><strong>解决方案：</strong></p>
     <ul style="padding-left:22px;font-size:14px">
       <li><strong>Candidate Proposal Adapter</strong>：在每个 backbone 前加一层统一接口，将不同 VLM 的输出 normalize 为 (top-k bbox, score, rank margin, normalized score gap) 标准格式</li>
       <li><strong>State 用更稳的特征</strong>：rank margin / normalized score gap / overlap statistics / detector-side geometry，而非原始 top-k probability（不同模型 calibration 不同）</li>
@@ -864,20 +787,20 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
       </tbody>
     </table>
 
-    <h3 class="h3">⚔️ Reviewer 预答（v5）</h3>
+    <h3 class="h3">⚔️ 常见问题预答</h3>
     <table>
       <tbody>
-        <tr><td>"这只是 decision head，不是 active perception?"</td><td>v5 主评估在 AI2-THOR 真交互环境，ZOOM/WAIT 真的改变可用证据（物理移动 + 等下一帧），不是裁 crop</td></tr>
+        <tr><td>"这只是 decision head，不是 active perception?"</td><td>主评估在 AI2-THOR 真交互环境，ZOOM/WAIT 真的改变可用证据（物理移动 + 等下一帧），不是裁 crop</td></tr>
         <tr><td>"和 Active-O3 区别？"</td><td>见上表 6 维度差异。核心：他们仅 ZOOM 单动作 + 仅静态图 + 仅一个 backbone；我们 5 actions + 真交互 + 多 backbone</td></tr>
         <tr><td>"Reward shaping 太手工？"</td><td>消融每项 reward；纯 task reward + cost penalty 也涨 +5%</td></tr>
         <tr><td>"训完真能即插即用？"</td><td>是的——state 是 14 维 confidence/几何向量，不送 visual feature。Table 7 在 3 个 frozen backbone 上验证</td></tr>
       </tbody>
     </table>
 
-    <h3 class="h3">🌉 Bridge Table（v5.1 新增）：EAP 是否真正缓解 DomesticGround 揭示的失败？</h3>
+    <h3 class="h3">🌉 Bridge Table：EAP 是否真正缓解 DomesticGround 揭示的失败？</h3>
     <div class="alert alert-blue">
-      <strong>Reviewer 担忧：</strong>"DomesticGround 是 benchmark，EAP 主评估却在 AI2-THOR——那 EAP 到底是不是在解决 DomesticGround 发现的问题？"<br>
-      <strong>v5.1 回答：</strong>必须有一张表证明 EAP 在 <strong>DomesticGround 的 ambiguous / abstention / hard case 子集上</strong>真的有效。
+      <strong>关键问题：</strong>DomesticGround 是 benchmark，EAP 主评估却在 AI2-THOR。如何证明 EAP 真正在解决 DomesticGround 发现的失败？<br>
+      <strong>解决方案：</strong>必须有一张 Bridge Table 证明 EAP 在 <strong>DomesticGround 的 ambiguous / abstention / hard case 子集上</strong>真的有效。
     </div>
     <table>
       <thead><tr><th>Setting</th><th>Acc@0.5</th><th>Hallucination Rate ↓</th><th>Abstention F1</th><th>Avg #Actions</th></tr></thead>
@@ -888,11 +811,11 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
         <tr><td>+ EAP (oracle clarify, upper bound)</td><td><em>75.8</em></td><td><em>11.2</em></td><td><em>63.4</em></td><td>2.1</td></tr>
       </tbody>
     </table>
-    <p style="font-size:13px;color:#64748b;margin-top:6px">注：上述数字为 v5.1 计划阶段的<strong>预期值</strong>，实际跑出来后填实测；oracle 行仅放 appendix，主表用 LLM-as-user。</p>
+    <p style="font-size:13px;color:#64748b;margin-top:6px">注：上述数字为计划阶段的<strong>预期值</strong>，实际跑出来后填实测；oracle 行仅放 appendix，主表用 template-based user simulator。</p>
 
     <div class="callout">
       <div class="callout-num">~88h</div>
-      <div class="callout-text"><strong>v5 增量工时</strong>：AI2-THOR 接入 +40h + 多 backbone 适配 +30h + cost-accuracy 实验 +18h（vs v4 原方案）。v5.1 再加 +10h 做 LLM-as-user clarify protocol + Bridge Table 实验</div>
+      <div class="callout-text"><strong>实施工时</strong>：AI2-THOR 接入 40h + 多 backbone 适配 30h + cost-accuracy 实验 18h + LLM-as-user clarify protocol + Bridge Table 实验 10h ≈ <strong>98h 总计</strong></div>
     </div>
   </div>
 </div>
@@ -998,32 +921,32 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
 <!-- ════════════ ⑧ 评估方法学 ════════════ -->
 <div class="section" id="eval">
   <div class="section-title">
-    <h2>⑧ 评估方法学（v5 升级到 5K + 8 维 + scene-disjoint）</h2>
+    <h2>⑧ 评估方法学（5,000 / 8 维 / scene-disjoint）</h2>
     <div class="sub">12 消融 · Bootstrap CI · McNemar · scene-disjoint split · human upper bound · OOD transfer</div>
   </div>
   <div class="section-body">
 
     <div class="alert alert-red">
-      <strong>v5 关键修改（应对 Reviewer #2 三大批评）：</strong>
+      <strong>评估方法学五大保障：</strong>
       <ol style="padding-left:20px;margin-top:6px">
-        <li><strong>总量 3,500 → 5,000</strong>：单轮 train/val/test = 3,000/700/1,300 + dialogs 400/100/200。三个数字严格自洽，杜绝 v4 的口径矛盾</li>
-        <li><strong>新增 Abstention 维度（300 条）</strong>：变成 8 维，单独评估 refuse / clarify / over-refusal 平衡</li>
+        <li><strong>总量 5,000</strong>：单轮 train/val/test = 3,000/700/1,300 + dialogs 400/100/200，所有数字严格自洽</li>
+        <li><strong>8 维诊断设计</strong>：含 Abstention 单独维度，评估 refuse / clarify / over-refusal 平衡</li>
         <li><strong>Scene-disjoint split</strong>：union-find 处理共享 instance，5 条 hard-assert 校验零泄漏</li>
-        <li><strong>新增 Human Upper Bound</strong>：5 PolyU + 2 外部 senior 标注，报 individual best + Fleiss κ + per-dim gap</li>
-        <li><strong>"打败 GPT-4o" 改为 OOD transfer</strong>：主战场 = Talk2Car / RefCOCOg / unseen scene，不在自家 train split 上比</li>
+        <li><strong>Human Upper Bound</strong>：5 PolyU + 2 外部 senior 标注，报 individual best + Fleiss κ + per-dim gap</li>
+        <li><strong>OOD transfer 为主战场</strong>：Talk2Car / RefCOCOg / unseen scene 真正衡量泛化能力，不只在自家 train split 上比</li>
       </ol>
     </div>
 
-    <h3 class="h3">📋 评估数据集 + 角色（v5 更新）</h3>
+    <h3 class="h3">📋 评估数据集 + 角色</h3>
     <table>
       <thead><tr><th>数据集</th><th>样本量</th><th>角色</th><th>必报性</th></tr></thead>
       <tbody>
-        <tr style="background:#dcfce7"><td><strong>DomesticGround test</strong>（v5 升级）</td><td><strong>1,300 单轮 + 200 dialogs</strong></td><td>主战场（in-domain），scene-disjoint split</td><td><span class="badge b-must">必报</span></td></tr>
-        <tr><td><strong>Human Upper Bound</strong>（v5 新增）</td><td>5+2 名 annotator</td><td>每条 2 人独立标，报 individual best + Fleiss κ + per-dim gap</td><td><span class="badge b-must">必报</span></td></tr>
+        <tr style="background:#dcfce7"><td><strong>DomesticGround test</strong></td><td><strong>1,300 单轮 + 200 dialogs</strong></td><td>主战场（in-domain），scene-disjoint split</td><td><span class="badge b-must">必报</span></td></tr>
+        <tr><td><strong>Human Upper Bound</strong></td><td>5+2 名 annotator</td><td>每条 2 人独立标，报 individual best + Fleiss κ + per-dim gap</td><td><span class="badge b-must">必报</span></td></tr>
         <tr><td>RefCOCOg val-u（UMD split）</td><td>9,602</td><td>通用 grounding 标杆</td><td><span class="badge b-must">必报</span></td></tr>
         <tr><td>RefCOCO val/testA/testB</td><td>~12K</td><td>短表达 grounding</td><td><span class="badge b-must">必报</span></td></tr>
         <tr><td>RefCOCO+ val/testA/testB</td><td>~12K</td><td>无方位词 grounding</td><td><span class="badge b-must">必报</span></td></tr>
-        <tr><td><strong>Talk2Car val</strong>（v5 强化）</td><td>1,200</td><td><strong>OOD 主战场</strong>（驾驶域，证明方法不只在自家 benchmark 上 work）</td><td><span class="badge b-must">必报</span></td></tr>
+        <tr><td><strong>Talk2Car val</strong></td><td>1,200</td><td><strong>OOD 主战场</strong>（驾驶域，证明方法不只在自家 benchmark 上 work）</td><td><span class="badge b-must">必报</span></td></tr>
         <tr><td>HallusionBench</td><td>1,129</td><td>幻觉评估</td><td><span class="badge b-must">必报</span></td></tr>
         <tr><td>Cross-domain holdout（office/outdoor）</td><td>500</td><td>OOD 泛化（unseen scene）</td><td><span class="badge b-must">必报</span></td></tr>
         <tr><td>POPE</td><td>9,000</td><td>object hallucination</td><td><span class="badge b-can">可选</span></td></tr>
@@ -1256,7 +1179,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
       <strong>两个最容易超预算的地方：</strong>
       <ul style="padding-left:20px;margin-top:6px">
         <li><strong>Active Policy 反复调参</strong>——已留 buffer，但若需要 5 次以上调整，GPU 可能多 ¥3-5K</li>
-        <li><strong>Reviewer 让补新 baseline</strong>（如 GPT-5、Llama 4 Vision）——rebuttal 阶段可能多 ¥1-2K API 费</li>
+        <li><strong>Rebuttal 阶段被要求补新 baseline</strong>（如 GPT-5、Llama 4 Vision）——可能多 ¥1-2K API 费</li>
       </ul>
       <strong>建议：</strong>总盘子定 <strong>¥2-2.5 万</strong>，预留 ¥3-5K 应急金，不要刚好卡 ¥2 万死预算。
     </div>
@@ -1430,8 +1353,8 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
   <div class="section-body">
 
     <div class="alert alert-dark">
-      <strong>风险 1：标注算术必须配得上 5,000 目标（v5.2 修正）</strong><br>
-      v5.1 写的"3 人 × 8 周 × 150 条 = 3,600"达不到 5,000 目标，差 1,400。v5.2 三选一：<br>
+      <strong>风险 1：标注人力必须匹配 5,000 条目标</strong><br>
+      三种可执行方案：<br>
       <strong>方案 A（推荐）：</strong>5 人 × 8 周 × 125 条 = 5,000（招够人，留 buffer）<br>
       <strong>方案 B：</strong>3 人 × 12 周 × 140 条 ≈ 5,040（延长到 12 周）<br>
       <strong>方案 C：</strong>正式版先做 4,000，后续扩到 5,000<br><br>
@@ -1486,7 +1409,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
 </div>
 
 <div style="text-align:center;color:#94a3b8;font-size:12px;padding:24px 0 40px">
-  v4.0 · 整合了 10 个专业 Agent 的调研 + 18 篇近期高引论文 + 模拟 Reviewer #2 的严苛审稿 · 更新于 2026-05-10<br>
+  URIS — CVPR 2027 投稿研究计划 · 单人独立项目 · 2026-05-11<br>
   <strong style="color:#7c3aed">主线：CVPR 2027 Main 投稿 · 兜底：CVPR 2027 Embodied AI Workshop · 预算 ¥1.96 万</strong><br>
   <span style="color:#cbd5e1;font-size:11px">注：本计划中所有方法选择都标注了来源论文，每个数字都可以追溯到具体调研结论；如需调整任何环节，建议从"目录"找对应章节定位修改</span>
 </div>

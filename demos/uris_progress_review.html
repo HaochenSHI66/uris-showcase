@@ -254,6 +254,7 @@ pre .yaml-key { color: #93c5fd; }
     <li><a href="#budget">⑩ 完整预算（¥1.73 万）</a></li>
     <li><a href="#timeline">⑪ 26 周时间线</a></li>
     <li><a href="#risk">⑫ 风险 + Workshop Fallback</a></li>
+    <li><a href="#cvpr">⑬ CVPR Compliance: Ethics / Limitations / Reproducibility</a></li>
   </ol>
 </div>
 
@@ -269,7 +270,7 @@ pre .yaml-key { color: #93c5fd; }
     </div>
 
     <div class="discbox" style="background:#fffbeb;border:1px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:12px 0;font-size:13.5px">
-      <strong style="color:#92400e">⚠️ 这条得自己留心：</strong>中期报告里写过 "LoRA fine-tuning improved accuracy 79%→87%"，但那版 LoRA 实测下来效果不太行（数据不够 + 配置没调好），需要这次用新数据 + 新方法重新训一版。论文里别再引中期那个 87% 的数字了——<strong>当前 30+850 条只是 pilot 阶段，论文最终结果全部基于新跑的 5,000 条正式集 DomesticGround</strong>。
+      <strong style="color:#92400e">⚠️ Pilot 与正式实验隔离原则：</strong>论文报告的所有数值均基于 <strong>5,000 条正式 DomesticGround</strong> 重新跑出，不会引用任何前期 pilot 阶段（30+850 条规模）的早期 LoRA 数字。所有 baseline 在统一 split 上重测，避免 pilot 阶段欠拟合配置造成的数字偏差。
     </div>
 
     <h3 class="h3">📊 关键技术决策（已敲定）</h3>
@@ -279,7 +280,7 @@ pre .yaml-key { color: #93c5fd; }
         <tr><td><strong>论文形态</strong></td><td>Benchmark + Findings + Compact Policy 三件套，主线收紧为 Benchmark-first，三阶段微调降级为 baseline recipe</td></tr>
         <tr><td><strong>投稿目标</strong></td><td>CVPR 2027 Main 主投，Workshop（CVPR Embodied AI / Foundation Models for V+L）作为兜底</td></tr>
         <tr><td><strong>数据策略</strong></td><td>100% 公开数据集 + 自补 language query。3 张主牌：Hypersim / HOI4D / AI2-THOR</td></tr>
-        <tr><td><strong>Benchmark 规模</strong></td><td>DomesticGround：5,000 条 / 8 维度 / 12-15 baseline / Fleiss κ ≥ 0.65 / hypothesis-driven 3 条 finding</td></tr>
+        <tr><td><strong>Benchmark 规模</strong></td><td>DomesticGround：5,000 条 / 8 维度 / <strong>15 个零样本评估 VLM baselines</strong> + <strong>12 项消融实验</strong> / Fleiss κ ≥ 0.65 / hypothesis-driven 3 条 finding</td></tr>
         <tr><td><strong>训练方法</strong></td><td>SFT(warmup) → SFT(domain) → GRPO 三阶段，参考 VLM-R1 / Visual-RFT 范式</td></tr>
         <tr><td><strong>Backbone 选择</strong></td><td><strong>Qwen2.5-VL-7B</strong>（主，与 VLM-R1 / Visual-RFT / Active-O3 / Reason-RFT 同款）+ InternVL3-8B（对照），EAP 扩展验证至 5-6 个 7B-class backbone，目标 RefCOCOg ≥ 89%</td></tr>
         <tr><td><strong>方法贡献</strong></td><td>EAP (Evidence Acquisition Policy)：3M 参数轻量 policy，5 actions，AI2-THOR 真交互评估</td></tr>
@@ -292,10 +293,29 @@ pre .yaml-key { color: #93c5fd; }
 <!-- ════════════ ② 理论依据 ════════════ -->
 <div class="section" id="theory">
   <div class="section-title">
-    <h2>② 理论依据：18 篇高引论文（Related Work 必引）</h2>
-    <div class="sub">分 6 个理论框架 · 每篇含 URIS 论文该如何引用</div>
+    <h2>② 理论依据：18 篇高引论文（Related Work 必引）+ Prior Benchmark 差异化表</h2>
+    <div class="sub">分 6 个理论框架 · 每篇含 URIS 论文该如何引用 · 含 DomesticGround vs 既有 benchmark 差异化对照</div>
   </div>
   <div class="section-body">
+
+    <h3 class="h3">📊 DomesticGround vs 既有 Benchmark 差异化对照表（Related Work §2 顶引）</h3>
+    <p style="font-size:13.5px;color:#475569;margin-bottom:8px">直接回答 reviewer 的"why another benchmark?"。每个维度选择最有可比性的同类工作，差异化用粗体标出。</p>
+    <table>
+      <thead><tr><th>Benchmark</th><th>Domain</th><th>Multi-turn</th><th>Abstention 维度</th><th>Hallucination paired</th><th>Scene-disjoint split</th><th>Human upper bound</th></tr></thead>
+      <tbody>
+        <tr><td>RefCOCO/+/g (Yu et al.)</td><td>COCO 通用</td><td>✗</td><td>✗</td><td>✗</td><td>✗</td><td>partial</td></tr>
+        <tr><td>HallusionBench (CVPR'24)</td><td>幻觉诊断</td><td>✗</td><td>✗</td><td>✓</td><td>—</td><td>✓</td></tr>
+        <tr><td>POPE (EMNLP'23)</td><td>对象幻觉</td><td>✗</td><td>✗</td><td>✓</td><td>—</td><td>✗</td></tr>
+        <tr><td>MMVP (CVPR'24)</td><td>视觉盲区</td><td>✗</td><td>✗</td><td>partial</td><td>—</td><td>✓</td></tr>
+        <tr><td>OpenEQA (CVPR'24)</td><td>Embodied QA</td><td>partial (episodic)</td><td>✗</td><td>✗</td><td>✗</td><td>✓</td></tr>
+        <tr><td>InViG (NeurIPS'23)</td><td>视觉对话指代</td><td>✓</td><td>✗</td><td>✗</td><td>✗</td><td>partial</td></tr>
+        <tr><td>Talk2Car (EMNLP'19)</td><td>驾驶指代</td><td>✗</td><td>✗</td><td>✗</td><td>partial</td><td>✓</td></tr>
+        <tr style="background:#dcfce7"><td><strong>DomesticGround (本工作)</strong></td><td><strong>家居杂乱</strong></td><td><strong>✓ (500 dialog)</strong></td><td><strong>✓ (500, 单独维度)</strong></td><td><strong>✓ (paired control)</strong></td><td><strong>✓ (union-find)</strong></td><td><strong>✓ (7 annotator, Fleiss κ≥0.65)</strong></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px;color:#64748b;margin-top:6px"><strong>差异化定位：</strong>DomesticGround 是首个在<strong>家居 multi-turn referring</strong>这个特定问题上同时提供 (i) 显式 abstention 维度、(ii) paired hallucination control、(iii) scene-disjoint split、(iv) human upper bound 的诊断 benchmark。措辞避开"first multi-turn"（InViG 已占位），改为"<em>jointly evaluates clutter × multi-turn carry-over × abstention × hallucination</em>"。</p>
+
+    <div class="divider"></div>
 
     <h3 class="h3">📚 框架 1：Hallucination Diagnosis Benchmarks（DomesticGround 直接对标）</h3>
 
@@ -858,7 +878,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
         <tr><td>1×RTX 4090 24G（消费级，QLoRA only）</td><td>不行</td><td>勉强 22GB（bs=1）</td><td>~8h</td><td>~24h</td></tr>
       </tbody>
     </table>
-    <p style="font-size:13px;color:#64748b;margin-top:6px">7B dense 模型相比 30B MoE：① 无需 ZeRO-3 ② 无 router/share-expert 兼容性问题 ③ 单卡完整训练，复现门槛极低（"reproducible on a single consumer A100"）。</p>
+    <p style="font-size:13px;color:#64748b;margin-top:6px">7B dense backbone 的复现优势：① 无需 ZeRO-3 ② 单 A100 80G 一卡到底 ③ 与 VLM-R1 / Visual-RFT / Active-O3 / Reason-RFT 同款配方，方法学一致便于审稿（"reproducible on a single A100"）。</p>
 
     <h3 class="h3">⚙️ LoRA 配置（基于 [18] DoRA，7B dense 常规配置）</h3>
     <table>
@@ -870,7 +890,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
         <tr><td>QLoRA r=64 (4-bit)</td><td>~80M</td><td>20GB</td><td>-1~2% vs DoRA</td><td>消费级 GPU 兜底</td></tr>
       </tbody>
     </table>
-    <p style="font-size:13px;color:#64748b;margin-top:6px">7B dense 不涉及 MoE share-expert / router freezing 这些特殊处理，配置即 VLM-R1 / Visual-RFT 同款 recipe。</p>
+    <p style="font-size:13px;color:#64748b;margin-top:6px">配置即 VLM-R1 / Visual-RFT 同款 recipe，无需特殊处理；DoRA r=64 已经接近 r=128 的 ceiling，主表只汇报 r=64 主结果，r=128 仅出现在 LoRA rank 消融。</p>
 
     <h3 class="h3">📋 完整超参 YAML（生产可用）</h3>
     <pre><span class="cm"># uris_qwen25vl7b_lora.yaml — 1×A100 80G 推荐版</span>
@@ -1027,24 +1047,24 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
 
     <h3 class="h3">📝 Title 候选</h3>
     <ul style="padding-left:22px;font-size:14px">
-      <li><strong>A:</strong> <em>DomesticGround: A Diagnostic Benchmark and Active Perception Framework for Multi-Turn Visual Reference Resolution in Cluttered Home Scenes</em></li>
-      <li><strong>B:</strong> <em>When VLMs Forget What They Saw: Active Perception for Domestic Visual Grounding</em></li>
-      <li><strong>C:</strong> <em>Active Visual Grounding for Embodied Domestic Interaction: A Benchmark, A Recipe, and A Light-weight Policy</em></li>
+      <li><strong>A:</strong> <em>DomesticGround &amp; EAP: A Diagnostic Benchmark and an Evidence Acquisition Policy for Multi-Turn Visual Reference Resolution in Cluttered Home Scenes</em></li>
+      <li><strong>B:</strong> <em>When VLMs Over-Commit: A Diagnostic Benchmark and a Backbone-Agnostic Evidence Acquisition Policy for Domestic Grounding</em></li>
+      <li><strong>C:</strong> <em>Beyond Recognition: Diagnosing Over-Commitment in VLMs and Mitigating It with a Lightweight Evidence Acquisition Policy</em></li>
     </ul>
 
     <h3 class="h3">📑 论文 8 页结构</h3>
     <table class="compact">
       <thead><tr><th>章节</th><th>页数</th><th>内容</th></tr></thead>
       <tbody>
-        <tr><td>Abstract</td><td>0.5</td><td>Hook + 3 contribution + 关键数字</td></tr>
-        <tr><td>1. Introduction</td><td>1</td><td>3 段式：RefCOCO 假设错 → embodied agent 可再看 → 我们把"再看什么"学出来</td></tr>
-        <tr><td>2. Related Work</td><td>1</td><td>Visual grounding [4,5,6,7,8] · Active perception [9,10,11,12] · Hallucination [1,2,3,16,17] · 必有 diff 表</td></tr>
-        <tr><td>3. DomesticGround Benchmark</td><td>2</td><td>Task formulation → Data collection → 8 dimensions（incl. Abstention）→ IAA → Statistics</td></tr>
-        <tr><td>4. Method: Three-Stage Fine-Tuning</td><td>1.5</td><td>S1 Warmup → S2 Domain → S3 GRPO（引 [13,14,15]）+ Active Policy</td></tr>
-        <tr><td>5. Experiments</td><td>2</td><td>15 baseline 主结果 + Failure analysis + Ablation + RefCOCOg 泛化</td></tr>
-        <tr><td>6. Discussion + Limitations</td><td>0.5</td><td>诚实写 6 条 limitations</td></tr>
-        <tr><td>7. Conclusion</td><td>0.25</td><td>3 句话</td></tr>
-        <tr><td>References</td><td>0.25</td><td>~50 篇</td></tr>
+        <tr><td>Abstract</td><td>0.5</td><td>Hook (VLM over-commitment) + 3 contributions (DomesticGround / Findings / EAP) + 关键数字</td></tr>
+        <tr><td>1. Introduction</td><td>1</td><td>3 段式：单轮 grounding 已饱和 → multi-turn / 歧义场景才是真问题 → 用 DomesticGround 诊断 + EAP 缓解</td></tr>
+        <tr><td>2. Related Work</td><td>1</td><td>Diagnostic benchmarks [1,2,3] · Visual grounding [4-8] · Active perception [9-12] · RL-VLM [13-15] · Hallucination [16,17] · 必有 prior-benchmark diff 表（见 §2 新增）</td></tr>
+        <tr><td>3. DomesticGround Benchmark (C1)</td><td>2</td><td>Task formulation → Data collection → 8 dimensions（incl. Abstention）→ IAA → Statistics → datasheet pointer</td></tr>
+        <tr><td>4. Findings (C2)</td><td>1</td><td><strong>15 个 VLM 零样本评估</strong>→ H1/H2/H3 假设验证 → 失败模式 6 类 confusion matrix</td></tr>
+        <tr><td>5. EAP — Evidence Acquisition Policy (C3)</td><td>2</td><td>Policy design (14-d state, 5 actions) → AI2-THOR 真交互评估 → cost-accuracy Pareto + Bridge Table → cross-backbone (5-6 frozen VLMs)</td></tr>
+        <tr><td>6. Implementation Details (baseline recipe)</td><td>0.5</td><td>三阶段微调作为 baseline recipe (S1 Warmup → S2 Domain → S3 GRPO，引 [13,14,15])，不当主 contribution</td></tr>
+        <tr><td>7. Limitations + Ethics + Conclusion</td><td>0.5</td><td>6 条 limitations + ethics statement + 3 句结论</td></tr>
+        <tr><td>References + Appendix pointer</td><td>0.25</td><td>~50 篇 + supplementary 含 datasheet / reproducibility checklist</td></tr>
       </tbody>
     </table>
 
@@ -1123,7 +1143,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
         <tr style="background:#dcfce7"><td><strong>A 小计</strong></td><td><strong>~1,580 GPU·h</strong></td><td><strong>¥7,900</strong></td></tr>
       </tbody>
     </table>
-    <p style="font-size:12.5px;color:#64748b;margin-top:6px">注：相比 30B MoE 方案（¥10,160），7B dense 在 SFT/GRPO 主跑上节省约 ¥3,000；但多 backbone 验证（EAP 论文卖点）从 ¥600 涨至 ¥2,500，部分抵消节省。<strong>净节省 ¥2,260</strong>。</p>
+    <p style="font-size:12.5px;color:#64748b;margin-top:6px">注：Qwen2.5-VL-7B dense backbone 在 SFT/GRPO 主跑均可单 A100 完整完成，主要 GPU 开销来自 <strong>EAP 跨 5-6 个 frozen backbone 的 plug-and-play 验证</strong>（占算力小计的约 1/3），这是 EAP 论文核心卖点，必须保留。</p>
 
     <h3 class="h3">B. API Tokens（¥6,030，占 35%）</h3>
     <p style="font-size:13.5px;color:#64748b;margin-bottom:8px">每条 VLM 调用 ~1,500 input + 300 output token；每个 baseline 在 ~5,000 条样本上跑（DomGround test 350 + RefCOCOg subsample 1,000 + HallusionBench 1,100 + Talk2Car 500 + POPE 500）</p>
@@ -1215,7 +1235,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
     <div class="tl-row"><div class="tl-week"><div class="tl-dot dot-red"></div><div class="tl-label">第 1 周<br>本周</div></div><div class="tl-content">
       <h5>🔴 启动准备</h5>
       <ul>
-        <li>下载 ScanNet++ / Hypersim / AI2-THOR / Ego4D（PolyU 校园网）</li>
+        <li>下载 Hypersim / HOI4D / AI2-THOR / Ego4D Goal-Step（PolyU 校园网）</li>
         <li>Benchmark schema v1 定稿（8 维度含 Abstention + 失败 taxonomy 8 类）</li>
         <li>找 PI 谈 ¥1.7-2 万预算（带本 HTML + ROI 论点）</li>
         <li>招募 3 名标注同伴（PolyU 计算系同学，给奶茶钱）</li>
@@ -1284,7 +1304,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
       <h5>🟡 Stage 3 GRPO Refinement</h5>
       <ul>
         <li>VLM-R1 / Visual-RFT 范式 RL 训练（5K steps，G=8）</li>
-        <li>Active Perception Policy 训练（PPO，6 GPU·days）</li>
+        <li>EAP（Evidence Acquisition Policy）训练（PPO，6 GPU·days，1×A100 80G）</li>
         <li>SAM segment + paste 合成 80K ambiguous 样本</li>
       </ul>
     </div></div>
@@ -1374,14 +1394,14 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
 
     <div class="alert alert-dark">
       <strong>风险 2：GRPO 训不出来（中-高）</strong><br>
-      RL 训练本身就难调（不是 URIS 独有的问题），GRPO 容易遇到 reward hacking、loss 爆炸、router 塌缩这些坑。<br><br>
+      RL 训练本身就难调（不是 URIS 独有的问题），GRPO 容易遇到 reward hacking、KL 爆炸、reward 与 IoU 脱钩这些坑。<br><br>
       <strong>怎么救：</strong>① 严格照搬 VLM-R1 [14] 的公开代码，别自己魔改 ② Plan B：退到 SFT + DPO 路线，发表难度小一点 ③ 最坏情况：纯 SFT 也行，RefCOCOg 90% 已经是好成绩了 ④ 实在不行就把方法部分削弱，主打 benchmark 章节，照样能成文
     </div>
 
     <div class="alert alert-dark">
-      <strong>风险 3：中期报告留下的"坑"（必须正视）</strong><br>
-      之前中期报告里 LoRA 那版的数据是基于很小的 pilot 跑出来的，实测在更大数据集上效果不稳定，所以这次必须重训一版。如果论文还直接沿用中期那个 87% 数字而没新数据支撑，reviewer 一查复现就出问题。<br><br>
-      <strong>怎么救：</strong>论文里所有数字必须用新跑的 5,000 条 DomesticGround 重新生成；在 Limitations 里大方写 "早期 LoRA 配置受限于数据规模和训练资源，效果未达预期，本工作通过 SFT + GRPO 三阶段训练 + 公开数据集二次标注解决了这一问题"——把过去的不足转成 motivation，反而能体现项目演进的逻辑性。
+      <strong>风险 3：Pilot/正式实验隔离不彻底 → 数字不可复现</strong><br>
+      Pilot 阶段使用的小规模 LoRA 配置不应混入正式实验数字。如果论文与早期 pilot 报告共用任何数值，reviewer 一旦尝试复现就会触发不一致。<br><br>
+      <strong>怎么救：</strong>论文中所有汇报数字仅基于 5,000 条正式 DomesticGround 与统一 split 重新生成；Pilot 数据仅作 schema/标注流程验证，不进入论文 main result tables；在 Limitations 中明示 pilot 与正式集的范围切分，便于 reviewer 校核。
     </div>
 
     <div class="alert alert-dark">
@@ -1408,13 +1428,116 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
 
     <h3 class="h3">📋 这周可以先做的 7 件事</h3>
     <ol style="padding-left:22px;font-size:14px">
-      <li><strong>本周：</strong>把 ScanNet++ / Hypersim / Ego4D 这些公开数据集先下下来（PolyU 校园网下得快）</li>
+      <li><strong>本周：</strong>把 Hypersim / HOI4D / AI2-THOR 这些公开数据集先下下来（PolyU 校园网下得快）</li>
       <li><strong>3 天内：</strong>DomesticGround schema v1 写出来交给教授过一遍，别等到下周</li>
       <li><strong>本周：</strong>找 PI 谈 ¥1.7-2 万预算，可以直接拿这份 HTML 给他看</li>
       <li><strong>本周：</strong>找 3 个 PolyU 同学一起标注（说好红包 + 奶茶饭钱 + 论文 acknowledgment）</li>
       <li><strong>本周：</strong>跟教授和组里同学统一口径——"早期 LoRA 数据规模有限效果不理想，本轮用 GRPO + 大数据集重做"</li>
       <li><strong>下周：</strong>autoDL / Featurize / 揽睿三家比一比 A100 80G 价格，锁个 ¥3.45/h 的 spot 卡</li>
       <li><strong>下周：</strong>把 W&B / HuggingFace Pro / Overleaf 这些工具注册一下</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ════════════ ⑬ CVPR Compliance ════════════ -->
+<div class="section" id="cvpr">
+  <div class="section-title">
+    <h2>⑬ CVPR Compliance: Ethics / Limitations / Reproducibility / Datasheet</h2>
+    <div class="sub">顶会必查项 · 投稿前逐条对齐 · 占论文 §7 + Supplementary</div>
+  </div>
+  <div class="section-body">
+
+    <h3 class="h3">🛡️ Ethics Statement（论文 §7 必含）</h3>
+    <div class="alert alert-blue">
+      <ol style="padding-left:20px;font-size:14px;line-height:1.75">
+        <li><strong>No human subjects data collection.</strong> 所有视觉源 100% 来自公开数据集（Hypersim CC BY-SA 3.0 / HOI4D 学术免费 / AI2-THOR Apache 2.0 / RefCOCO 学术免费 / LLaVA-Instruct Apache 2.0）。Human upper bound 标注由 7 位志愿者完成，仅标注 bbox + ambiguity 标签，<strong>不涉及任何 PII</strong>；标注协议已书面披露被试角色与酬金（PolyU 计算系内部，奶茶/餐费补贴 + acknowledgment，无强制参与）。</li>
+        <li><strong>License compliance.</strong> DomesticGround 衍生标注按各源数据集 license 最严格条款（CC BY-SA 3.0 ShareAlike）发布；不分发任何原始像素，仅分发 query + bbox 引用 + 标注 schema。</li>
+        <li><strong>Foreseeable misuse.</strong> EAP 是 frozen-VLM 增强模块，无新生成能力；不放大幻觉。模型仅在仿真环境（AI2-THOR）评估，未连接实体机械臂，未涉及任何安全关键决策。</li>
+        <li><strong>Energy / compute disclosure.</strong> 总训练算力约 1,580 A100·h ≈ 6.3 MWh（按 ~400W/卡），对应 ~3.0 tCO₂e（中国电网均值）。明显低于同期 70B+ 模型工作 1-2 个数量级。</li>
+        <li><strong>Annotator fairness.</strong> 标注者获 acknowledgment + 餐费补贴，标注规则书面化（IAA 协议 + Fleiss κ 反馈循环），不存在劳动剥削。</li>
+      </ol>
+    </div>
+
+    <h3 class="h3">📋 Limitations（论文 §7 明列 6 条，不混入 future work）</h3>
+    <table>
+      <thead><tr><th width="22%">Limitation</th><th>具体内容</th><th>缓解 / 何处披露</th></tr></thead>
+      <tbody>
+        <tr><td><strong>L1 单一域</strong></td><td>DomesticGround 仅覆盖家居室内；office / outdoor 仅 500 条 OOD holdout</td><td>§5 OOD 部分 + Talk2Car 跨域评估</td></tr>
+        <tr><td><strong>L2 单语言</strong></td><td>Query 仅英语 + 部分中英对照子集；未覆盖低资源语言</td><td>Limitations 明示，future work</td></tr>
+        <tr><td><strong>L3 仿真物理</strong></td><td>EAP 主评估在 AI2-THOR 仿真，非真实机械臂。ZOOM 视角离散</td><td>§5 主表注 + supplementary 真实图像 ZOOM 消融</td></tr>
+        <tr><td><strong>L4 Pilot 不进入主结果</strong></td><td>早期 pilot (30+850) 阶段的 LoRA 数字不进入论文，所有结果基于正式 5,000 重测</td><td>§3 Data 部分 + reproducibility checklist</td></tr>
+        <tr><td><strong>L5 CLARIFY 用户模拟器</strong></td><td>主表用 template-based user simulator（可复现），但与真人交互仍有 gap</td><td>§5 三档 CLARIFY 协议表 + Prolific 人测 supplementary 300 query</td></tr>
+        <tr><td><strong>L6 Frozen backbone 范围</strong></td><td>EAP 验证覆盖 5-6 个 7B-class backbone；30B/72B / 闭源 API 受算力 + API quota 限制仅做 partial coverage</td><td>§5 多 backbone 表注 + supplementary 扩展实验</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="h3">✅ Reproducibility Checklist（投稿前逐条勾选）</h3>
+    <div class="grid2">
+      <div>
+        <h4 class="h4" style="color:#16a34a">数据 & Benchmark</h4>
+        <ul style="padding-left:18px;font-size:13.5px;line-height:1.7">
+          <li>☐ DomesticGround 5,000 条标注 + schema 公开（HuggingFace dataset card + datasheet）</li>
+          <li>☐ Train / val / test split 文件 + checksums 公开</li>
+          <li>☐ Scene-disjoint union-find 算法脚本公开（含 5 条 hard-assert）</li>
+          <li>☐ Test split 物理隔离（独立私有 repo + checksum 公开）</li>
+          <li>☐ 标注规则 v1.0 + IAA 报告（Fleiss κ per dimension）</li>
+          <li>☐ Failure taxonomy 6 类示例与判定规则</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="h4" style="color:#16a34a">代码 & 模型</h4>
+        <ul style="padding-left:18px;font-size:13.5px;line-height:1.7">
+          <li>☐ 训练代码（LLaMA-Factory YAML + 自定义 collator）</li>
+          <li>☐ EAP policy 代码（PPO + GAE 实现 + reward 设计）</li>
+          <li>☐ AI2-THOR 评估脚本 + 300 episode seeds</li>
+          <li>☐ Candidate Proposal Adapter（跨 backbone normalization）</li>
+          <li>☐ 评估脚本 + reproduce.sh + seeds</li>
+          <li>☐ LoRA / DoRA checkpoint（HuggingFace Hub）</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="h4" style="color:#16a34a">实验 & 统计</h4>
+        <ul style="padding-left:18px;font-size:13.5px;line-height:1.7">
+          <li>☐ 3 random seeds 主结果均值 ± 标准差</li>
+          <li>☐ Bootstrap 95% CI（1000 重采样）</li>
+          <li>☐ Paired McNemar + Bonferroni correction</li>
+          <li>☐ 超参 grid 与最终选择披露</li>
+          <li>☐ API baseline timestamp + model snapshot version 记录</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="h4" style="color:#16a34a">报告 & 资源</h4>
+        <ul style="padding-left:18px;font-size:13.5px;line-height:1.7">
+          <li>☐ GPU·h / GPU 型号 / 训练 wall-clock</li>
+          <li>☐ 总能耗 + CO₂e 估算</li>
+          <li>☐ 数据集 License + 衍生分发条款</li>
+          <li>☐ 标注者酬金披露</li>
+          <li>☐ Supplementary：datasheet + 失败案例 grid + 完整 baseline 表</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="h3">📑 Datasheet for DomesticGround（Gebru et al. 2021 模板，supplementary 必含）</h3>
+    <table class="compact">
+      <thead><tr><th width="20%">章节</th><th>关键回答</th></tr></thead>
+      <tbody>
+        <tr><td>Motivation</td><td>为评估 VLM 在 multi-turn 家居 grounding + abstention + hallucination 的失败模式而构建</td></tr>
+        <tr><td>Composition</td><td>5,000 query × 8 维度 (Spatial 500 / Categorical 400 / Relational 700 / Temporal 400 / Multi-turn 500 dialog / Hallucination 500 / Hard Cases 500 / Abstention 500)</td></tr>
+        <tr><td>Collection Process</td><td>视觉源全部公开数据集；query 由本团队 + 7 名标注者构造，Fleiss κ≥0.65</td></tr>
+        <tr><td>Preprocessing</td><td>scene-disjoint split (union-find) → 3,000/700/1,300；Hypersim 真实深度图用于 Relational 维度</td></tr>
+        <tr><td>Uses</td><td>主用于评估 VLM grounding / abstention / hallucination；可作为 SFT / GRPO 训练源（train split 仅）</td></tr>
+        <tr><td>Distribution</td><td>HuggingFace dataset card；CC BY-SA 4.0 (继承最严格上游 license)</td></tr>
+        <tr><td>Maintenance</td><td>本团队维护至少 2 年，error report 通过 GitHub issue 收集</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="h3">🔒 Test Set 防作弊协议</h3>
+    <ol style="padding-left:22px;font-size:14px">
+      <li>Test bbox + label 在 paper acceptance 前不公开；evaluation server (HuggingFace Space) 接收预测，返回 metric</li>
+      <li>每 baseline 仅允许 1 次正式提交，git commit hash 留痕</li>
+      <li>Hyperparam tuning 严禁在 test split 上（仅 val）</li>
+      <li>API baseline 调用记录 timestamp + model snapshot version (例如 <code>gpt-4o-2024-08-06</code>)</li>
+      <li>所有 eval 脚本 + seeds 公开，附 <code>reproduce.sh</code> 一键复现</li>
     </ol>
   </div>
 </div>

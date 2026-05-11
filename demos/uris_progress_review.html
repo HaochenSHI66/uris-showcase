@@ -188,8 +188,9 @@ pre .yaml-key { color: #93c5fd; }
     <span class="htag">DomesticGround 5K / 8 维</span>
     <span class="htag">EAP Evidence Acquisition Policy</span>
     <span class="htag">100% 公开数据</span>
-    <span class="htag">¥1.96 万预算</span>
-    <span class="htag">A800 国内云</span>
+    <span class="htag">¥1.73 万预算</span>
+    <span class="htag">A100 80G 单卡可跑</span>
+    <span class="htag">Qwen2.5-VL-7B (与 VLM-R1 同款)</span>
   </div>
 </div>
 
@@ -215,18 +216,18 @@ pre .yaml-key { color: #93c5fd; }
     </div>
     <div class="h-card">
       <div class="hlbl">总预算</div>
-      <div class="hval">¥1.96 万</div>
-      <div class="hsub">A800 ¥5/h · 同学标注</div>
+      <div class="hval">¥1.73 万</div>
+      <div class="hsub">A100 ¥6.68/h · 同学标注</div>
+    </div>
+    <div class="h-card">
+      <div class="hlbl">主 backbone</div>
+      <div class="hval">Qwen2.5-VL-7B</div>
+      <div class="hsub">与 VLM-R1 / Visual-RFT 同款</div>
     </div>
     <div class="h-card">
       <div class="hlbl">EAP 评估环境</div>
       <div class="hval">AI2-THOR</div>
-      <div class="hsub">300 episode 真交互</div>
-    </div>
-    <div class="h-card">
-      <div class="hlbl">已对比 Prior Work</div>
-      <div class="hval">4 篇</div>
-      <div class="hsub">InViG / IRef-VLA / SAMA / Active-O3</div>
+      <div class="hsub">300 ep · 跨 5 backbone 验证</div>
     </div>
   </div>
   <div class="callout" style="background:rgba(0,0,0,0.25);border:none;margin-top:18px">
@@ -250,7 +251,7 @@ pre .yaml-key { color: #93c5fd; }
     <li><a href="#infra">⑦ 训练基础设施 + 超参</a></li>
     <li><a href="#eval">⑧ 评估（5K / 8 维 / scene-disjoint / human upper bound）</a></li>
     <li><a href="#paper">⑨ 论文叙事 + Framing</a></li>
-    <li><a href="#budget">⑩ 完整预算（¥1.96 万）</a></li>
+    <li><a href="#budget">⑩ 完整预算（¥1.73 万）</a></li>
     <li><a href="#timeline">⑪ 26 周时间线</a></li>
     <li><a href="#risk">⑫ 风险 + Workshop Fallback</a></li>
   </ol>
@@ -280,7 +281,7 @@ pre .yaml-key { color: #93c5fd; }
         <tr><td><strong>数据策略</strong></td><td>100% 公开数据集 + 自补 language query。3 张主牌：Hypersim / HOI4D / AI2-THOR</td></tr>
         <tr><td><strong>Benchmark 规模</strong></td><td>DomesticGround：5,000 条 / 8 维度 / 12-15 baseline / Fleiss κ ≥ 0.65 / hypothesis-driven 3 条 finding</td></tr>
         <tr><td><strong>训练方法</strong></td><td>SFT(warmup) → SFT(domain) → GRPO 三阶段，参考 VLM-R1 / Visual-RFT 范式</td></tr>
-        <tr><td><strong>Backbone 选择</strong></td><td>Qwen3-VL-30B-A3B (主) + InternVL3.5-14B (对照)，目标 RefCOCOg ≥ 90%</td></tr>
+        <tr><td><strong>Backbone 选择</strong></td><td><strong>Qwen2.5-VL-7B</strong>（主，与 VLM-R1 / Visual-RFT / Active-O3 / Reason-RFT 同款）+ InternVL3-8B（对照），EAP 扩展验证至 5-6 个 7B-class backbone，目标 RefCOCOg ≥ 89%</td></tr>
         <tr><td><strong>方法贡献</strong></td><td>EAP (Evidence Acquisition Policy)：3M 参数轻量 policy，5 actions，AI2-THOR 真交互评估</td></tr>
         <tr><td><strong>评估严谨度</strong></td><td>Scene-disjoint split + Bootstrap 95% CI + McNemar test + Human Upper Bound</td></tr>
       </tbody>
@@ -341,7 +342,7 @@ pre .yaml-key { color: #93c5fd; }
     <div class="paper-card">
       <div class="pt">[7] Florence-2: Advancing a Unified Representation for a Variety of Vision Tasks <span class="badge b-paper">CVPR 2024</span></div>
       <div class="pa">Xiao et al. (Microsoft) · Location token 0-999 + seq2seq</div>
-      <div class="pw"><strong>URIS 引用：</strong>证明 0-1000 归一化坐标的 community standard，与 Qwen3-VL 对齐</div>
+      <div class="pw"><strong>URIS 引用：</strong>证明 0-1000 归一化坐标的 community standard，与 Qwen2.5-VL box token 对齐</div>
     </div>
 
     <div class="paper-card">
@@ -418,7 +419,7 @@ pre .yaml-key { color: #93c5fd; }
 
     <div class="divider"></div>
 
-    <h3 class="h3">📚 框架 6：Efficient Tuning（LoRA / DoRA / MoE）</h3>
+    <h3 class="h3">📚 框架 6：Efficient Tuning（LoRA / DoRA）</h3>
 
     <div class="paper-card">
       <div class="pt">[18] DoRA: Weight-Decomposed Low-Rank Adaptation <span class="badge b-paper">ICML 2024</span></div>
@@ -434,7 +435,7 @@ pre .yaml-key { color: #93c5fd; }
         <li><strong>Conversational disambiguation</strong>（OpenEQA → Talk2Car 谱系）— frame CLARIFY action 的合法性</li>
         <li><strong>Hallucination as over-commitment</strong>（POPE → HallusionBench → OPA-DPO）— 论证 WAIT/REJECT 不是工程 trick</li>
         <li><strong>Group Relative Policy Optimization</strong>（DeepSeek-R1 → Visual-RFT → VLM-R1）— frame Stage 3 训练</li>
-        <li><strong>Mixture-of-Experts efficient tuning</strong>（Qwen3-VL-30B-A3B = 3B activated）— frame "30B 模型可在中等算力下 fine-tune" 的合理性</li>
+        <li><strong>Parameter-efficient adaptation on 7B dense VLM</strong>（DoRA r=64-128 on Qwen2.5-VL-7B）— frame "single-A100 reproducible recipe consistent with VLM-R1 / Visual-RFT" 的合理性</li>
       </ol>
     </div>
   </div>
@@ -625,11 +626,16 @@ pre .yaml-key { color: #93c5fd; }
     </div>
 
     <h3 class="h3">🎯 Backbone 选择</h3>
+    <div class="alert alert-blue">
+      <strong>有意的 lightweight + reproducible 设计选择：</strong>主 backbone 选 <strong>Qwen2.5-VL-7B</strong>，与同期 SOTA RL-VLM 工作（VLM-R1 / Visual-RFT / Active-O3 / Reason-RFT）方法学一致，<strong>单张 A100 80G 即可完整复现</strong>。30B/72B variants 在 supplementary 中作为 scaling reference。
+    </div>
     <table class="compact">
       <thead><tr><th>Backbone</th><th>参数</th><th>RefCOCO 现况</th><th>角色</th></tr></thead>
       <tbody>
-        <tr><td><strong>Qwen3-VL-30B-A3B</strong>（MoE）</td><td>30B 总 / 3B 激活</td><td>未公开数字（与 235B 媲美 GPT-5）</td><td><strong>主 backbone</strong>，CVPR 论文主结果</td></tr>
-        <tr><td>InternVL3.5-14B</td><td>14B dense</td><td>RefCOCO avg <strong>90.1</strong>（开源 SOTA）</td><td>对照 backbone（验证 backbone-agnostic）</td></tr>
+        <tr style="background:#dcfce7"><td><strong>Qwen2.5-VL-7B</strong>（dense）</td><td>7B</td><td>RefCOCOg val-u ~87-89%（与 VLM-R1 一致）</td><td><strong>主 backbone</strong>，CVPR 论文主结果，与 VLM-R1 / Visual-RFT / Active-O3 同款</td></tr>
+        <tr><td>InternVL3-8B</td><td>8B dense</td><td>RefCOCO avg ~89（开源强 baseline）</td><td>对照 backbone（验证 backbone-agnostic）</td></tr>
+        <tr><td>Qwen2.5-VL-2B / Qwen3-VL-8B / LLaVA-OneVision-7B / Molmo-7B</td><td>2B-8B</td><td>—</td><td>EAP backbone-agnostic 扩展验证（共 5-6 个 frozen backbone）</td></tr>
+        <tr><td><em>Qwen2.5-VL-32B / -72B</em></td><td>32B / 72B dense</td><td>RefCOCO SOTA</td><td>Supplementary scaling reference（如算力允许）</td></tr>
       </tbody>
     </table>
 
@@ -639,10 +645,10 @@ pre .yaml-key { color: #93c5fd; }
       <h4 class="h4" style="color:#4338ca;font-size:15px">Stage 1: Grounding Warmup（让模型学会 box 输出格式）</h4>
       <table class="compact">
         <tbody>
-          <tr><td><strong>数据</strong></td><td>RefCOCO/+/g 改写为 Qwen3-VL 原生格式 50K，box 用 [0,1000] 整数</td></tr>
+          <tr><td><strong>数据</strong></td><td>RefCOCO/+/g 改写为 Qwen2.5-VL 原生格式 50K，box 用 [0,1000] 整数</td></tr>
           <tr><td><strong>目标</strong></td><td>强制学输出 <code>&lt;|object_ref_start|&gt;X&lt;|object_ref_end|&gt;&lt;|box_start|&gt;(x,y),(x,y)&lt;|box_end|&gt;</code></td></tr>
-          <tr><td><strong>配置</strong></td><td>DoRA r=128, α=256, freeze vit, LR=1e-4, 1 epoch, cosine schedule</td></tr>
-          <tr><td><strong>时长</strong></td><td>8×A800 约 8 小时</td></tr>
+          <tr><td><strong>配置</strong></td><td>DoRA r=64, α=128, freeze vit, LR=1e-4, 1 epoch, cosine schedule</td></tr>
+          <tr><td><strong>时长</strong></td><td><strong>1×A100 80G 约 2 小时</strong>（4×A100 约 0.6h）</td></tr>
           <tr><td><strong>验收</strong></td><td>RefCOCOg val Acc@0.5 ≥ 85%</td></tr>
         </tbody>
       </table>
@@ -654,9 +660,9 @@ pre .yaml-key { color: #93c5fd; }
         <tbody>
           <tr><td><strong>数据</strong></td><td>DomesticGround train + Stage 1 数据 1:1 mix + HOI4D multi-frame + LLaVA replay（合计 36,750 条）</td></tr>
           <tr><td><strong>目标</strong></td><td>领域适应 + 多轮对话 + 时序记忆</td></tr>
-          <tr><td><strong>配置</strong></td><td>接 Stage 1 ckpt 续训, LR=5e-5, 3 epochs, share-expert LoRA + LoRA+ ratio=16</td></tr>
-          <tr><td><strong>关键 trick</strong></td><td>Box token loss 加权 2.0 + 30% 样本带 CoT reasoning（用 Qwen3-VL-235B 蒸馏生成）</td></tr>
-          <tr><td><strong>时长</strong></td><td>8×A800 约 16 小时</td></tr>
+          <tr><td><strong>配置</strong></td><td>接 Stage 1 ckpt 续训, LR=5e-5, 3 epochs, DoRA r=64 + LoRA+ ratio=16</td></tr>
+          <tr><td><strong>关键 trick</strong></td><td>Box token loss 加权 2.0 + 30% 样本带 CoT reasoning（用 Qwen2.5-VL-72B 或 Qwen3-VL-235B 本地蒸馏生成）</td></tr>
+          <tr><td><strong>时长</strong></td><td><strong>1×A100 80G 约 4 小时</strong>（4×A100 约 1.2h）</td></tr>
           <tr><td><strong>验收</strong></td><td>DomesticGround val Acc@0.5 ≥ 75%</td></tr>
         </tbody>
       </table>
@@ -671,8 +677,8 @@ pre .yaml-key { color: #93c5fd; }
           <tr><td><strong>Reward</strong></td><td>0.9 × IoU(pred, gt) + 0.1 × format_correct</td></tr>
           <tr><td><strong>配置</strong></td><td>GRPO group=8, KL β=0.04, LR=1e-6, 5K RL steps</td></tr>
           <tr><td><strong>防 reward hacking</strong></td><td>双 reward + KL 约束 + 输出长度限制 1024 + 每 100 step 跑 RefCOCOg val 监控</td></tr>
-          <tr><td><strong>时长</strong></td><td>8×A800 约 24 小时</td></tr>
-          <tr><td><strong>验收</strong></td><td>RefCOCOg val Acc@0.5 ≥ 90% (+5pp vs Stage 2)</td></tr>
+          <tr><td><strong>时长</strong></td><td><strong>1×A100 80G 约 6 小时</strong>（4×A100 约 2h）</td></tr>
+          <tr><td><strong>验收</strong></td><td>RefCOCOg val Acc@0.5 ≥ 89% (+3-4pp vs Stage 2)</td></tr>
         </tbody>
       </table>
     </div>
@@ -681,10 +687,10 @@ pre .yaml-key { color: #93c5fd; }
     <table>
       <thead><tr><th>阶段</th><th>RefCOCOg val-u</th><th>DomesticGround</th><th>HallusionBench</th></tr></thead>
       <tbody>
-        <tr><td>Vanilla Qwen3-VL-30B-A3B</td><td>~88%</td><td>~58%</td><td>~50%</td></tr>
-        <tr><td>+ Stage 1 only</td><td>~89%</td><td>~62%</td><td>~52%</td></tr>
-        <tr><td>+ Stage 1 + 2 (SFT)</td><td>~90%</td><td>~70%</td><td>~58%</td></tr>
-        <tr style="background:#dcfce7"><td><strong>+ Stage 3 (GRPO) [完整]</strong></td><td><strong>~91-92%</strong></td><td><strong>~74-78%</strong></td><td><strong>~65-68%</strong></td></tr>
+        <tr><td>Vanilla Qwen2.5-VL-7B</td><td>~87%</td><td>~55%</td><td>~48%</td></tr>
+        <tr><td>+ Stage 1 only</td><td>~87.5%</td><td>~60%</td><td>~50%</td></tr>
+        <tr><td>+ Stage 1 + 2 (SFT)</td><td>~88%</td><td>~68%</td><td>~56%</td></tr>
+        <tr style="background:#dcfce7"><td><strong>+ Stage 3 (GRPO) [完整]</strong></td><td><strong>~89%</strong></td><td><strong>~72%</strong></td><td><strong>~65%</strong></td></tr>
       </tbody>
     </table>
   </div>
@@ -753,13 +759,16 @@ a5: REJECT             <span class="cm"># 拒答(abstention)</span></pre>
       <li><strong>State 用更稳的特征</strong>：rank margin / normalized score gap / overlap statistics / detector-side geometry，而非原始 top-k probability（不同模型 calibration 不同）</li>
       <li><strong>Cross-backbone calibration ablation</strong>（必跑）：分别报告 raw confidence vs calibrated 的 EAP 收益</li>
     </ul>
-    <p style="font-size:14px;margin-top:8px">3 个 frozen backbone：</p>
+    <p style="font-size:14px;margin-top:8px"><strong>5-6 个 7B-class frozen backbone</strong>（EAP 论文核心卖点：真正 backbone-agnostic）：</p>
     <ul style="padding-left:22px;font-size:14px">
-      <li><strong>Qwen2.5-VL-7B / Qwen3-VL-30B-A3B</strong>（主 backbone）</li>
+      <li><strong>Qwen2.5-VL-7B</strong>（主 backbone，与 VLM-R1 / Visual-RFT / Active-O3 同款）</li>
+      <li><strong>Qwen2.5-VL-2B</strong>（最小，证明 EAP 在 small VLM 上同样 work）</li>
+      <li><strong>Qwen3-VL-8B</strong>（如官方发布则纳入，否则注明 N/A）</li>
       <li><strong>LLaVA-OneVision-7B</strong></li>
       <li><strong>InternVL3-8B</strong></li>
+      <li><strong>Molmo-7B</strong>（AllenAI，open-data baseline）</li>
     </ul>
-    <p style="font-size:14px;margin-top:6px">每个 backbone 上汇报 success rate 提升 + hallucination 降低，证明 EAP 真的 plug-and-play。</p>
+    <p style="font-size:14px;margin-top:6px">每个 backbone 上汇报 success rate 提升 + hallucination 降低，证明 EAP 真的 plug-and-play。<strong>跨 5+ 个 frozen backbone 验证是同期 Active-O3（仅 Qwen2.5-VL-7B 单一 backbone）做不到的差异化卖点</strong>。</p>
 
     <h3 class="h3">🎯 Reward 设计（含 cost penalty + hallucination penalty）</h3>
     <pre><span class="cm"># Reward = task_reward − β · cost − γ · hallucination_penalty</span>
@@ -772,7 +781,7 @@ REJECT (gt 不存在)   → +0.5
 REJECT (gt 存在)     → −0.8  <span class="cm"># abstention 失误重惩</span>
 每步                 → −0.05 × β  <span class="cm"># 鼓励效率</span>
 hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment</span></pre>
-    <p style="font-size:14px">PPO + GAE 训练，1×A800 × 5 days，~120 GPU·h ≈ ¥600。</p>
+    <p style="font-size:14px">PPO + GAE 训练，1×A100 × 5 days，~120 GPU·h ≈ ¥800（单 backbone 主跑）。多 backbone 验证额外 ~300 GPU·h。</p>
 
     <h3 class="h3">⚔️ 与 Active-O3 差异表（必引）</h3>
     <table class="compact">
@@ -780,7 +789,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
       <tbody>
         <tr><td>评估环境</td><td>仅静态图</td><td><strong>AI2-THOR 真交互</strong> + 静态图消融</td></tr>
         <tr><td>Action space</td><td>仅 ZOOM 单动作</td><td><strong>5 actions</strong>（ZOOM/WAIT/CLARIFY/ANSWER/REJECT）</td></tr>
-        <tr><td>Backbone</td><td>仅 Qwen2.5-VL-7B</td><td><strong>3 个 frozen backbones</strong></td></tr>
+        <tr><td>Backbone</td><td>仅 Qwen2.5-VL-7B（单 backbone）</td><td>同 Qwen2.5-VL-7B 主 backbone，<strong>但扩展至 5-6 个 frozen 7B-class backbones</strong>（真正 backbone-agnostic 验证）</td></tr>
         <tr><td>Cost-accuracy 分析</td><td>仅 budget=1..3</td><td><strong>完整 Pareto frontier + EAS + CAR</strong></td></tr>
         <tr><td>评估任务</td><td>LVIS / SODA / V*（detection/seg）</td><td>家居 multi-turn referring + abstention</td></tr>
         <tr><td>Hallucination</td><td>未评估</td><td><strong>HRC 曲线</strong></td></tr>
@@ -791,9 +800,9 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
     <table>
       <tbody>
         <tr><td>"这只是 decision head，不是 active perception?"</td><td>主评估在 AI2-THOR 真交互环境，ZOOM/WAIT 真的改变可用证据（物理移动 + 等下一帧），不是裁 crop</td></tr>
-        <tr><td>"和 Active-O3 区别？"</td><td>见上表 6 维度差异。核心：他们仅 ZOOM 单动作 + 仅静态图 + 仅一个 backbone；我们 5 actions + 真交互 + 多 backbone</td></tr>
+        <tr><td>"和 Active-O3 区别？"</td><td>见上表 6 维度差异。核心：他们仅 ZOOM 单动作 + 仅静态图 + 单 backbone（同 Qwen2.5-VL-7B）；我们 5 actions + 真交互 + 跨 5-6 个 7B-class backbone</td></tr>
         <tr><td>"Reward shaping 太手工？"</td><td>消融每项 reward；纯 task reward + cost penalty 也涨 +5%</td></tr>
-        <tr><td>"训完真能即插即用？"</td><td>是的——state 是 14 维 confidence/几何向量，不送 visual feature。Table 7 在 3 个 frozen backbone 上验证</td></tr>
+        <tr><td>"训完真能即插即用？"</td><td>是的——state 是 14 维 confidence/几何向量，不送 visual feature。Table 7 在 5-6 个 frozen backbone 上验证</td></tr>
       </tbody>
     </table>
 
@@ -824,56 +833,57 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
 <div class="section" id="infra">
   <div class="section-title">
     <h2>⑦ 训练基础设施 + 完整超参</h2>
-    <div class="sub">LLaMA-Factory + DeepSpeed ZeRO-2 + 8×A800（国内云 ¥5/h）</div>
+    <div class="sub">LLaMA-Factory + DeepSpeed ZeRO-2 + 1×A100 80G 单卡可跑（autoDL ¥6.68/h，spot ¥3.45/h）</div>
   </div>
   <div class="section-body">
 
     <h3 class="h3">🛠 框架选择</h3>
     <table>
-      <thead><tr><th>框架</th><th>Qwen3-VL MoE 兼容</th><th>多卡</th><th>易用性</th><th>推荐</th></tr></thead>
+      <thead><tr><th>框架</th><th>Qwen2.5-VL-7B 兼容</th><th>多卡</th><th>易用性</th><th>推荐</th></tr></thead>
       <tbody>
-        <tr style="background:#dcfce7"><td><strong>LLaMA-Factory</strong></td><td>官方 2026-03 起支持，expert LoRA 成熟</td><td>DDP+ZeRO-2/3+FSDP</td><td>9/10</td><td><strong>✅ 主力</strong></td></tr>
-        <tr><td>Unsloth</td><td>单卡稳定，MoE A3B beta</td><td>DDP 实验性</td><td>9/10</td><td>消融副线（单卡快）</td></tr>
-        <tr><td>ms-swift</td><td>阿里官方 day-1 支持</td><td>DDP+DS+Megatron TP/PP</td><td>7/10</td><td>Backup</td></tr>
+        <tr style="background:#dcfce7"><td><strong>LLaMA-Factory</strong></td><td>官方 day-1 支持，DoRA/LoRA+ 成熟</td><td>DDP+ZeRO-2/3+FSDP</td><td>9/10</td><td><strong>✅ 主力</strong></td></tr>
+        <tr><td>Unsloth</td><td>单卡极速（2× 加速），7B 全功能</td><td>DDP 实验性</td><td>9/10</td><td>消融副线（单卡快）</td></tr>
+        <tr><td>ms-swift</td><td>阿里官方，Qwen 系列首选</td><td>DDP+DS+Megatron TP/PP</td><td>7/10</td><td>Backup</td></tr>
         <tr><td>trl + transformers</td><td>需手写 collator</td><td>accelerate FSDP</td><td>4/10</td><td>否</td></tr>
       </tbody>
     </table>
 
-    <h3 class="h3">💻 硬件配置</h3>
+    <h3 class="h3">💻 硬件配置（7B dense，单卡即可）</h3>
     <table>
-      <thead><tr><th>场景</th><th>LoRA r=128</th><th>QLoRA 4bit</th><th>1 epoch (30K)</th><th>3 epoch</th></tr></thead>
+      <thead><tr><th>场景</th><th>DoRA r=64-128</th><th>QLoRA 4bit</th><th>1 epoch (30K)</th><th>3 epoch</th></tr></thead>
       <tbody>
-        <tr><td>1×A800 80G（国内云 ¥5/h）</td><td>勉强（72GB）</td><td>舒适（38GB）</td><td>16h / 11h</td><td>48h / 33h</td></tr>
-        <tr style="background:#dcfce7"><td><strong>4×A800 80G + ZeRO-2（推荐 ¥20/h）</strong></td><td><strong>舒适（55GB/卡）</strong></td><td>26GB</td><td><strong>5h / 3h</strong></td><td><strong>15h / 9h</strong></td></tr>
-        <tr style="background:#ddd6fe"><td><strong>8×A800 80G + ZeRO-2（顶配 ¥40/h）</strong></td><td>舒适</td><td>舒适</td><td><strong>2.5h / 2h</strong></td><td><strong>8h</strong></td></tr>
-        <tr><td>1×A6000 48G</td><td>不行</td><td>勉强 44GB</td><td>16h</td><td>48h</td></tr>
+        <tr style="background:#dcfce7"><td><strong>1×A100 80G（autoDL ¥6.68/h, spot ¥3.45/h，推荐主力）</strong></td><td><strong>舒适（38GB）</strong></td><td>20GB</td><td><strong>1.5h</strong></td><td><strong>4-5h</strong></td></tr>
+        <tr style="background:#ddd6fe"><td><strong>4×A100 80G + ZeRO-2（顶配 ¥27/h，加速 ×4）</strong></td><td>非常舒适</td><td>舒适</td><td><strong>0.5h</strong></td><td><strong>1.5h</strong></td></tr>
+        <tr><td>4×A800 80G + ZeRO-2（国内备选 ¥20/h）</td><td>舒适</td><td>舒适</td><td>0.5h</td><td>1.5h</td></tr>
+        <tr><td>1×RTX 4090 24G（消费级，QLoRA only）</td><td>不行</td><td>勉强 22GB（bs=1）</td><td>~8h</td><td>~24h</td></tr>
       </tbody>
     </table>
+    <p style="font-size:13px;color:#64748b;margin-top:6px">7B dense 模型相比 30B MoE：① 无需 ZeRO-3 ② 无 router/share-expert 兼容性问题 ③ 单卡完整训练，复现门槛极低（"reproducible on a single consumer A100"）。</p>
 
-    <h3 class="h3">⚙️ LoRA 配置（基于 [18] DoRA）</h3>
+    <h3 class="h3">⚙️ LoRA 配置（基于 [18] DoRA，7B dense 常规配置）</h3>
     <table>
       <thead><tr><th>方法</th><th>参数量</th><th>显存</th><th>性能</th><th>推荐</th></tr></thead>
       <tbody>
-        <tr style="background:#dcfce7"><td><strong>DoRA r=128 + LoRA+ ratio=16</strong></td><td>~580M</td><td>72GB</td><td>+1.5pp baseline</td><td>✅ 主力（多卡）</td></tr>
-        <tr><td>QLoRA r=128 share-expert</td><td>~85M</td><td>38GB</td><td>-1~2% vs full LoRA</td><td>单卡首选</td></tr>
-        <tr><td>vanilla LoRA r=128</td><td>~580M</td><td>72GB</td><td>baseline</td><td>对照组</td></tr>
-        <tr><td>LoRA r=256</td><td>~1.15B</td><td>4 卡 OK</td><td>+0.3~0.7%</td><td>消融</td></tr>
+        <tr style="background:#dcfce7"><td><strong>DoRA r=64 + LoRA+ ratio=16</strong></td><td>~80M</td><td>38GB</td><td>+1.5pp baseline</td><td>✅ 主力（单 A100）</td></tr>
+        <tr><td>DoRA r=128 + LoRA+ ratio=16</td><td>~160M</td><td>52GB</td><td>+0.3~0.7% vs r=64</td><td>更激进配置</td></tr>
+        <tr><td>vanilla LoRA r=64</td><td>~80M</td><td>38GB</td><td>baseline</td><td>对照组</td></tr>
+        <tr><td>QLoRA r=64 (4-bit)</td><td>~80M</td><td>20GB</td><td>-1~2% vs DoRA</td><td>消费级 GPU 兜底</td></tr>
       </tbody>
     </table>
+    <p style="font-size:13px;color:#64748b;margin-top:6px">7B dense 不涉及 MoE share-expert / router freezing 这些特殊处理，配置即 VLM-R1 / Visual-RFT 同款 recipe。</p>
 
     <h3 class="h3">📋 完整超参 YAML（生产可用）</h3>
-    <pre><span class="cm"># urisqwen3vl_lora.yaml — 8×A800 推荐版</span>
-<span class="yaml-key">model_name_or_path:</span> Qwen/Qwen3-VL-30B-A3B-Instruct
+    <pre><span class="cm"># uris_qwen25vl7b_lora.yaml — 1×A100 80G 推荐版</span>
+<span class="yaml-key">model_name_or_path:</span> Qwen/Qwen2.5-VL-7B-Instruct
 <span class="yaml-key">stage:</span> sft
 <span class="yaml-key">finetuning_type:</span> lora
-<span class="yaml-key">lora_rank:</span> <span class="nu">128</span>
-<span class="yaml-key">lora_alpha:</span> <span class="nu">256</span>            <span class="cm"># = 2×rank</span>
+<span class="yaml-key">lora_rank:</span> <span class="nu">64</span>
+<span class="yaml-key">lora_alpha:</span> <span class="nu">128</span>            <span class="cm"># = 2×rank</span>
 <span class="yaml-key">lora_dropout:</span> <span class="nu">0.05</span>
 <span class="yaml-key">lora_target:</span> q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj
 <span class="yaml-key">loraplus_lr_ratio:</span> <span class="nu">16</span>      <span class="cm"># LoRA+ 免费提点</span>
 <span class="yaml-key">use_dora:</span> <span class="nu">true</span>              <span class="cm"># DoRA 启用</span>
 <span class="yaml-key">freeze_vision_tower:</span> <span class="nu">true</span>
-<span class="yaml-key">freeze_moe_router:</span> <span class="nu">true</span>     <span class="cm"># MoE 关键</span>
 
 <span class="cm"># optim</span>
 <span class="yaml-key">learning_rate:</span> <span class="nu">1.0e-4</span>
@@ -882,17 +892,17 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
 <span class="yaml-key">max_grad_norm:</span> <span class="nu">1.0</span>
 <span class="yaml-key">optim:</span> adamw_torch_fused
 
-<span class="cm"># batch</span>
-<span class="yaml-key">per_device_train_batch_size:</span> <span class="nu">2</span>
-<span class="yaml-key">gradient_accumulation_steps:</span> <span class="nu">4</span>   <span class="cm"># 全局 bs=64</span>
+<span class="cm"># batch (1×A100 80G 单卡)</span>
+<span class="yaml-key">per_device_train_batch_size:</span> <span class="nu">4</span>
+<span class="yaml-key">gradient_accumulation_steps:</span> <span class="nu">8</span>   <span class="cm"># 全局 bs=32</span>
 <span class="yaml-key">num_train_epochs:</span> <span class="nu">3</span>
 <span class="yaml-key">cutoff_len:</span> <span class="nu">4096</span>
 
 <span class="cm"># precision</span>
 <span class="yaml-key">bf16:</span> <span class="nu">true</span>
-<span class="yaml-key">flash_attn:</span> fa2                <span class="cm"># A800 用 fa2</span>
+<span class="yaml-key">flash_attn:</span> fa2                <span class="cm"># A100 用 fa2</span>
 <span class="yaml-key">gradient_checkpointing:</span> <span class="nu">true</span>
-<span class="yaml-key">deepspeed:</span> ds_z2_config.json
+<span class="yaml-key">deepspeed:</span> ds_z2_config.json   <span class="cm"># 单卡可省，多卡时启用</span>
 
 <span class="cm"># data</span>
 <span class="yaml-key">dataset:</span> uris_ground,refcoco_rewrite,hoi4d_home,llava_replay,synthetic_amb
@@ -912,7 +922,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
       <li>grad_norm（&gt;5 报警）</li>
       <li>LR schedule</li>
       <li>GPU utilization / VRAM</li>
-      <li><strong>router_entropy</strong>（监测 MoE 塌缩）</li>
+      <li>vision encoder activation norm（监测 ViT 漂移）</li>
       <li>tokens/sec throughput</li>
     </ul>
   </div>
@@ -958,16 +968,16 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
     <table class="compact">
       <thead><tr><th>#</th><th>消融变量</th><th>对照组</th><th>论文位置</th></tr></thead>
       <tbody>
-        <tr><td>1</td><td>Backbone</td><td>Qwen3-VL-30B / Qwen2.5-VL-7B / InternVL3.5-14B</td><td>Table 3</td></tr>
+        <tr><td>1</td><td>Backbone</td><td>Qwen2.5-VL-2B / <strong>Qwen2.5-VL-7B (主)</strong> / Qwen3-VL-8B / LLaVA-OV-7B / InternVL3-8B / Molmo-7B</td><td>Table 3</td></tr>
         <tr><td>2</td><td>训练数据规模</td><td>1K / 5K / 10K / 30K（log scale）</td><td>Fig. 5 scaling curve</td></tr>
-        <tr><td>3</td><td>LoRA rank</td><td>r=64 / 128 / 256 / 512</td><td>Table 4</td></tr>
+        <tr><td>3</td><td>LoRA rank</td><td>r=32 / 64 / 128 / 256</td><td>Table 4</td></tr>
         <tr><td>4</td><td>训练阶段</td><td>S2 only / S1+S2 / S1+S2+S3(GRPO)</td><td>Table 4</td></tr>
         <tr><td>5</td><td>数据混合比例</td><td>纯自建 / +RefCOCO / +LLaVA / All</td><td>Table 3</td></tr>
         <tr><td>6</td><td>CoT 训练数据</td><td>with vs without</td><td>Table 4</td></tr>
         <tr><td>7</td><td>Visual encoder 冻结</td><td>Frozen / Unfrozen / LoRA on ViT</td><td>Appendix</td></tr>
         <tr><td>8</td><td>Vision token 数</td><td>256 / 1024 / 4096</td><td>Fig. 6 latency-acc</td></tr>
         <tr><td>9</td><td>Action policy 接入</td><td>w/ vs w/o policy head</td><td>Table 1</td></tr>
-        <tr><td>10</td><td>Backbone-agnostic</td><td>Qwen + InternVL 同 recipe</td><td>Table 3</td></tr>
+        <tr><td>10</td><td>Backbone-agnostic（EAP）</td><td>5-6 个 frozen backbone 上跑 EAP，verify plug-and-play</td><td>Table 7</td></tr>
         <tr><td>11</td><td>Clarification 训练比例</td><td>0% / 10% / 30%</td><td>Appendix</td></tr>
         <tr><td>12</td><td>Negative / refusal 样本</td><td>with vs without</td><td>Table 4</td></tr>
       </tbody>
@@ -1067,54 +1077,55 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
 <!-- ════════════ ⑩ 预算 ════════════ -->
 <div class="section" id="budget">
   <div class="section-title">
-    <h2>⑩ 精简实战预算（¥1.96 万 RMB）</h2>
-    <div class="sub">A800 ¥5/h · 同学帮标注 · 暂不算投稿差旅 · GPU + API 多预留 buffer</div>
+    <h2>⑩ 精简实战预算（¥1.73 万 RMB）</h2>
+    <div class="sub">A100 80G ¥6.68/h（spot ¥3.45/h）· 7B dense 单卡可跑 · 同学帮标注 · 暂不算投稿差旅 · GPU + API 多预留 buffer</div>
   </div>
   <div class="section-body">
 
     <div class="grid3" style="margin-bottom:20px">
       <div class="stat-card sc-blue">
-        <div class="num" style="font-size:26px">¥1.4 万</div>
-        <div class="lbl"><strong>极简版</strong><br>API 砍到 2 个，buffer 减半</div>
+        <div class="num" style="font-size:26px">¥1.2 万</div>
+        <div class="lbl"><strong>极简版</strong><br>API 砍到 2 个，buffer 减半，少做 2 个 backbone</div>
       </div>
       <div class="stat-card sc-purple">
-        <div class="num" style="font-size:26px">¥1.96 万</div>
-        <div class="lbl"><strong>推荐版</strong><br>4 API + 5 消融 + 1 次 rebuttal 重跑</div>
+        <div class="num" style="font-size:26px">¥1.73 万</div>
+        <div class="lbl"><strong>推荐版</strong><br>4 API + 5 消融 + 5-6 backbone EAP 验证</div>
       </div>
       <div class="stat-card sc-yellow">
-        <div class="num" style="font-size:26px">¥2.5 万</div>
-        <div class="lbl"><strong>舒适版</strong><br>加 Claude 4.5 / Gemini 3 + 完整重跑</div>
+        <div class="num" style="font-size:26px">¥2.2 万</div>
+        <div class="lbl"><strong>舒适版</strong><br>加 Claude 4.5 / Gemini 3 + 完整重跑 + 72B scaling 实验</div>
       </div>
     </div>
 
     <div class="alert alert-blue">
       <strong>三大砍法：</strong>
       <ol style="padding-left:20px;margin-top:6px">
-        <li>不用 Lambda Labs 的 H100，全部走国内云的 A800 spot 卡（¥5/h），便宜十几倍</li>
+        <li>主 backbone 选 7B dense（Qwen2.5-VL-7B，与 VLM-R1 同款），单 A100 即可跑完整 SFT + GRPO，不用 8 卡集群</li>
         <li>不跑 GPT-5 / Claude 4.5 / Gemini 3 这些 preview 价高的，用 GPT-4o + Gemini 2.5 + Qwen-VL-Max 已够 reviewer 满意</li>
-        <li>1 次主跑 + 1 次 rebuttal 重跑（不做 3 次）；Hyperparam 直接抄 VLM-R1 paper 配置；不做第二个 backbone</li>
+        <li>1 次主跑 + 1 次 rebuttal 重跑（不做 3 次）；Hyperparam 直接抄 VLM-R1 paper 配置；多 backbone 是 EAP 卖点，必须做</li>
       </ol>
     </div>
 
-    <h3 class="h3">A. 显卡算力（¥10,160，占 52%）</h3>
-    <p style="font-size:13.5px;color:#64748b;margin-bottom:8px">A800 单卡 ¥5/h，多卡按 GPU·h 累加</p>
+    <h3 class="h3">A. 显卡算力（¥7,900，占 45%）</h3>
+    <p style="font-size:13.5px;color:#64748b;margin-bottom:8px">A100 80G 单卡 ¥6.68/h（autoDL），spot ¥3.45/h；综合按 ¥5/h 估算（含部分 spot + 部分 on-demand）</p>
     <table class="compact">
-      <thead><tr><th>项目</th><th>GPU·h（A800）</th><th>小计</th></tr></thead>
+      <thead><tr><th>项目</th><th>GPU·h（A100）</th><th>小计</th></tr></thead>
       <tbody>
-        <tr><td>Pilot 调试 + 数据 pipeline 验证</td><td>200</td><td>¥1,000</td></tr>
-        <tr><td>Stage 1 SFT warmup（1 跑）</td><td>96</td><td>¥480</td></tr>
-        <tr><td>Stage 2 SFT 主训（1 主跑 + 1 微调）</td><td>200</td><td>¥1,000</td></tr>
-        <tr><td>Stage 3 GRPO（1 主跑）</td><td>144</td><td>¥720</td></tr>
-        <tr><td>Active Policy PPO（1 主 + 2 消融）</td><td>432</td><td>¥2,160</td></tr>
-        <tr><td>5 个核心消融实验</td><td>240</td><td>¥1,200</td></tr>
-        <tr><td>开源 VLM baseline 推理（3-4 个 model）</td><td>240</td><td>¥1,200</td></tr>
-        <tr><td>CoT 数据生成（本地 Qwen-235B 推 11K）</td><td>320</td><td>¥1,600</td></tr>
-        <tr><td><strong>Buffer / 失败重跑（25%）</strong></td><td>360</td><td><strong>¥1,800</strong></td></tr>
-        <tr style="background:#dcfce7"><td><strong>A 小计</strong></td><td><strong>~2,000 GPU·h</strong></td><td><strong>¥10,160</strong></td></tr>
+        <tr><td>Pilot 调试 + 数据 pipeline 验证</td><td>100</td><td>¥500</td></tr>
+        <tr><td>Stage 1 SFT warmup（1×A100 × 2h × 多次）</td><td>48</td><td>¥240</td></tr>
+        <tr><td>Stage 2 SFT 主训（1 主跑 + 1 微调，1×A100 × 4-6h × 数次）</td><td>100</td><td>¥500</td></tr>
+        <tr><td>Stage 3 GRPO（1 主跑，1×A100 × 6h × 数次）</td><td>72</td><td>¥360</td></tr>
+        <tr><td>EAP PPO（1 主 backbone + 5 backbone 验证）</td><td>500</td><td>¥2,500</td></tr>
+        <tr><td>5 个核心消融实验</td><td>150</td><td>¥750</td></tr>
+        <tr><td>开源 VLM baseline 推理（3-4 个 7B-72B model）</td><td>120</td><td>¥600</td></tr>
+        <tr><td>CoT 数据生成（本地 Qwen3-VL-235B 推 11K，需多卡）</td><td>240</td><td>¥1,200</td></tr>
+        <tr><td><strong>Buffer / 失败重跑（约 18%）</strong></td><td>250</td><td><strong>¥1,250</strong></td></tr>
+        <tr style="background:#dcfce7"><td><strong>A 小计</strong></td><td><strong>~1,580 GPU·h</strong></td><td><strong>¥7,900</strong></td></tr>
       </tbody>
     </table>
+    <p style="font-size:12.5px;color:#64748b;margin-top:6px">注：相比 30B MoE 方案（¥10,160），7B dense 在 SFT/GRPO 主跑上节省约 ¥3,000；但多 backbone 验证（EAP 论文卖点）从 ¥600 涨至 ¥2,500，部分抵消节省。<strong>净节省 ¥2,260</strong>。</p>
 
-    <h3 class="h3">B. API Tokens（¥6,030，占 31%）</h3>
+    <h3 class="h3">B. API Tokens（¥6,030，占 35%）</h3>
     <p style="font-size:13.5px;color:#64748b;margin-bottom:8px">每条 VLM 调用 ~1,500 input + 300 output token；每个 baseline 在 ~5,000 条样本上跑（DomGround test 350 + RefCOCOg subsample 1,000 + HallusionBench 1,100 + Talk2Car 500 + POPE 500）</p>
     <table class="compact">
       <thead><tr><th>项目</th><th>主跑</th><th>Rebuttal 重跑</th><th>小计</th></tr></thead>
@@ -1131,7 +1142,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
       </tbody>
     </table>
 
-    <h3 class="h3">C. 标注 + 软件（¥3,400，占 17%）</h3>
+    <h3 class="h3">C. 标注 + 软件（¥3,400，占 20%）</h3>
     <table class="compact">
       <tbody>
         <tr><td>标注（同学帮做，给点意思 + 奶茶饭钱）</td><td>¥1,500</td></tr>
@@ -1143,12 +1154,12 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
     <p style="font-size:12px;color:#94a3b8;margin-top:8px">不算的：Overleaf 免费版够用 / 数据集走 PolyU 校园网下载免费 / Cursor + Claude Code 已订阅</p>
 
     <div class="budget-total">
-      <div class="lbl">推荐版总计</div>
-      <div class="val">¥19,590 RMB</div>
+      <div class="lbl">推荐版总计（GPU ¥7,900 + API ¥6,030 + 标注/软件 ¥3,400）</div>
+      <div class="val">¥17,330 RMB</div>
     </div>
     <div class="budget-total" style="background:#fef3c7;border:1px solid #fcd34d;margin-top:10px">
       <div class="lbl" style="color:#92400e">≈ USD（按 1:7.2）</div>
-      <div class="val" style="color:#92400e">$2,720</div>
+      <div class="val" style="color:#92400e">$2,407</div>
     </div>
 
     <h3 class="h3">⚠️ 暂不算的项</h3>
@@ -1165,12 +1176,12 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
     <table class="compact">
       <thead><tr><th>月份</th><th>主要开销</th><th>金额</th><th>累计</th></tr></thead>
       <tbody>
-        <tr><td>M1（5月）</td><td>软件订阅 + Pilot GPU + Schema API 调试</td><td>¥3,000</td><td>¥3,000</td></tr>
-        <tr><td>M2（6月）</td><td>主标注启动 + Stage 1 SFT + Baseline API 试跑</td><td>¥3,500</td><td>¥6,500</td></tr>
-        <tr><td>M3（7月）</td><td>Stage 2 SFT 主力 + 闭源 API baseline</td><td>¥4,500</td><td>¥11,000</td></tr>
-        <tr style="background:#fee2e2"><td><strong>M4（8月）</strong></td><td><strong>GRPO + Active Policy + 消融实验（最高峰）</strong></td><td><strong>¥5,000</strong></td><td>¥16,000</td></tr>
-        <tr><td>M5（9月）</td><td>Failure 分析 + 写作</td><td>¥2,000</td><td>¥18,000</td></tr>
-        <tr><td>M6（10-11月）</td><td>Rebuttal buffer + 投稿</td><td>¥1,590</td><td>¥19,590</td></tr>
+        <tr><td>M1（5月）</td><td>软件订阅 + Pilot GPU + Schema API 调试</td><td>¥2,500</td><td>¥2,500</td></tr>
+        <tr><td>M2（6月）</td><td>主标注启动 + Stage 1 SFT + Baseline API 试跑</td><td>¥3,000</td><td>¥5,500</td></tr>
+        <tr><td>M3（7月）</td><td>Stage 2 SFT 主力 + 闭源 API baseline</td><td>¥3,800</td><td>¥9,300</td></tr>
+        <tr style="background:#fee2e2"><td><strong>M4（8月）</strong></td><td><strong>GRPO + EAP 多 backbone 验证 + 消融实验（最高峰）</strong></td><td><strong>¥4,500</strong></td><td>¥13,800</td></tr>
+        <tr><td>M5（9月）</td><td>Failure 分析 + 写作</td><td>¥2,000</td><td>¥15,800</td></tr>
+        <tr><td>M6（10-11月）</td><td>Rebuttal buffer + 投稿</td><td>¥1,530</td><td>¥17,330</td></tr>
       </tbody>
     </table>
 
@@ -1181,12 +1192,12 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
         <li><strong>Active Policy 反复调参</strong>——已留 buffer，但若需要 5 次以上调整，GPU 可能多 ¥3-5K</li>
         <li><strong>Rebuttal 阶段被要求补新 baseline</strong>（如 GPT-5、Llama 4 Vision）——可能多 ¥1-2K API 费</li>
       </ul>
-      <strong>建议：</strong>总盘子定 <strong>¥2-2.5 万</strong>，预留 ¥3-5K 应急金，不要刚好卡 ¥2 万死预算。
+      <strong>建议：</strong>总盘子定 <strong>¥1.8-2.2 万</strong>，预留 ¥3-5K 应急金，不要刚好卡 ¥1.7 万死预算。
     </div>
 
     <h3 class="h3">💡 跟 PI 谈的话术</h3>
     <div class="alert alert-purple">
-      "Prof. X，这个项目按国内 A800 spot 卡（¥5/h）+ 国内同学义务标注的成本算下来 <strong>不到 2 万人民币</strong>，主要花在 OpenAI/Anthropic/Google 的 API baseline 测试上（约 6000 元，是 reviewer 必看的）。投稿差旅暂时不算，等论文接收了再申请 travel grant。这是 PolyU 计算系学生独立项目能拿到的最低投入冲击 CVPR 的方案。"
+      "Prof. X，这个项目主 backbone 选 <strong>Qwen2.5-VL-7B</strong>（和 VLM-R1 / Visual-RFT / Active-O3 同款，方法学一致 + 单 A100 即可完整复现），国内云 A100 80G ¥6.68/h（spot ¥3.45/h）+ 国内同学义务标注，全套成本算下来 <strong>不到 1.8 万人民币</strong>，主要花在 OpenAI/Anthropic/Google 的 API baseline 测试上（约 6000 元，是 reviewer 必看的）。投稿差旅暂时不算，等论文接收了再申请 travel grant。这是 PolyU 计算系学生独立项目能拿到的最低投入冲击 CVPR 的方案。"
     </div>
   </div>
 </div>
@@ -1206,7 +1217,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
       <ul>
         <li>下载 ScanNet++ / Hypersim / AI2-THOR / Ego4D（PolyU 校园网）</li>
         <li>Benchmark schema v1 定稿（8 维度含 Abstention + 失败 taxonomy 8 类）</li>
-        <li>找 PI 谈 ¥2 万预算（带本 HTML + ROI 论点）</li>
+        <li>找 PI 谈 ¥1.7-2 万预算（带本 HTML + ROI 论点）</li>
         <li>招募 3 名标注同伴（PolyU 计算系同学，给奶茶钱）</li>
         <li>统一口径：早期 LoRA 效果不及预期，本轮用更大数据 + GRPO 重做</li>
       </ul>
@@ -1215,10 +1226,10 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
     <div class="tl-row"><div class="tl-week"><div class="tl-dot dot-red"></div><div class="tl-label">第 2 周</div></div><div class="tl-content">
       <h5>🔴 Pipeline 搭建</h5>
       <ul>
-        <li>写自动化标注 pipeline（GroundingDINO + SAM-2 + Qwen3-VL-235B）</li>
+        <li>写自动化标注 pipeline（GroundingDINO + SAM-2 + Qwen2.5-VL-72B / Qwen3-VL-235B 任选）</li>
         <li>写标注细则 v1.0（含 disagreement 处理流程）</li>
         <li>试标 100 条算 Cohen κ</li>
-        <li>国内云 A800 试算（autoDL / Featurize / 揽睿 三家比价）</li>
+        <li>国内云 A100 80G 试算（autoDL / Featurize / 揽睿 三家比价，主选 A100 spot ¥3.45/h）</li>
       </ul>
     </div></div>
 
@@ -1228,7 +1239,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
         <li>3 人独立标注 500 条 pilot</li>
         <li>Fleiss Kappa 校验，目标 ≥ 0.65</li>
         <li>不达标修订细则 + 重标</li>
-        <li>开始 Stage 1 SFT warmup（RefCOCO 50K × 1 epoch，8×A800 × 6h）</li>
+        <li>开始 Stage 1 SFT warmup（RefCOCO 50K × 1 epoch，1×A100 80G × 2h）</li>
       </ul>
     </div></div>
 
@@ -1251,7 +1262,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
       <ul>
         <li>15 个 baseline 在 RefCOCO/+/g 上验证（证明实现正确）</li>
         <li>4 个闭源 API 测试（GPT-5/4o + Claude + Gemini + Qwen）</li>
-        <li>5+ 开源 VLM 部署到 A800 跑推理</li>
+        <li>5+ 开源 VLM 部署到 A100 跑推理</li>
       </ul>
     </div></div>
 
@@ -1263,9 +1274,9 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
     <div class="tl-row"><div class="tl-week"><div class="tl-dot dot-yellow"></div><div class="tl-label">第 11-13 周</div></div><div class="tl-content">
       <h5>🟡 Stage 2 SFT 主力训练</h5>
       <ul>
-        <li>DomesticGround train + replay mix 训 Qwen3-VL-30B-A3B（8×A800 × 16h × 多次实验）</li>
+        <li>DomesticGround train + replay mix 训 Qwen2.5-VL-7B（1×A100 80G × 4-6h × 多次实验）</li>
         <li>Hyperparam grid: rank/lr/mix ratio（6 个变体）</li>
-        <li>InternVL3.5-14B 同 recipe 跑一遍（验证 backbone-agnostic）</li>
+        <li>InternVL3-8B 同 recipe 跑一遍（验证 backbone-agnostic，SFT 部分）</li>
       </ul>
     </div></div>
 
@@ -1399,10 +1410,10 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
     <ol style="padding-left:22px;font-size:14px">
       <li><strong>本周：</strong>把 ScanNet++ / Hypersim / Ego4D 这些公开数据集先下下来（PolyU 校园网下得快）</li>
       <li><strong>3 天内：</strong>DomesticGround schema v1 写出来交给教授过一遍，别等到下周</li>
-      <li><strong>本周：</strong>找 PI 谈 ¥2 万预算，可以直接拿这份 HTML 给他看</li>
+      <li><strong>本周：</strong>找 PI 谈 ¥1.7-2 万预算，可以直接拿这份 HTML 给他看</li>
       <li><strong>本周：</strong>找 3 个 PolyU 同学一起标注（说好红包 + 奶茶饭钱 + 论文 acknowledgment）</li>
       <li><strong>本周：</strong>跟教授和组里同学统一口径——"早期 LoRA 数据规模有限效果不理想，本轮用 GRPO + 大数据集重做"</li>
-      <li><strong>下周：</strong>autoDL / Featurize / 揽睿三家比一比 A800 价格，锁个 ¥5/h 的 spot 卡</li>
+      <li><strong>下周：</strong>autoDL / Featurize / 揽睿三家比一比 A100 80G 价格，锁个 ¥3.45/h 的 spot 卡</li>
       <li><strong>下周：</strong>把 W&B / HuggingFace Pro / Overleaf 这些工具注册一下</li>
     </ol>
   </div>
@@ -1410,7 +1421,7 @@ hallucinate          → −0.5 × γ  <span class="cm"># 惩罚 over-commitment
 
 <div style="text-align:center;color:#94a3b8;font-size:12px;padding:24px 0 40px">
   URIS — CVPR 2027 投稿研究计划 · 单人独立项目 · 2026-05-11<br>
-  <strong style="color:#7c3aed">主线：CVPR 2027 Main 投稿 · 兜底：CVPR 2027 Embodied AI Workshop · 预算 ¥1.96 万</strong><br>
+  <strong style="color:#7c3aed">主线：CVPR 2027 Main 投稿 · 兜底：CVPR 2027 Embodied AI Workshop · 主 backbone Qwen2.5-VL-7B · 预算 ¥1.73 万</strong><br>
   <span style="color:#cbd5e1;font-size:11px">注：本计划中所有方法选择都标注了来源论文，每个数字都可以追溯到具体调研结论；如需调整任何环节，建议从"目录"找对应章节定位修改</span>
 </div>
 
